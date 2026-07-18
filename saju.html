@@ -235,11 +235,11 @@
     <h2>생년월일시 입력 (양력)</h2>
     <div class="form-grid">
       <div class="field"><label>이름 (선택)</label><input type="text" id="inName" placeholder="이름" style="width:7.5em"></div>
-      <div class="field"><label>년</label><input type="number" id="inY" min="1900" max="2100" value="1990" style="width:5.4em"></div>
+      <div class="field"><label>년</label><input type="number" id="inY" min="1900" max="2100" value="1980" style="width:5.4em"></div>
       <div class="field"><label>월</label><input type="number" id="inM" min="1" max="12" value="1" style="width:4em"></div>
-      <div class="field"><label>일</label><input type="number" id="inD" min="1" max="31" value="1" style="width:4em"></div>
-      <div class="field"><label>시</label><input type="number" id="inH" min="0" max="23" value="12" style="width:4em"></div>
-      <div class="field"><label>분</label><input type="number" id="inMin" min="0" max="59" value="0" style="width:4em"></div>
+      <div class="field"><label>일</label><input type="number" id="inD" min="1" max="31" value="10" style="width:4em"></div>
+      <div class="field"><label>시</label><input type="number" id="inH" min="0" max="23" value="0" style="width:4em"></div>
+      <div class="field"><label>분</label><input type="number" id="inMin" min="0" max="59" value="30" style="width:4em"></div>
       <div class="field">
         <label>성별</label>
         <div class="radio-row">
@@ -247,7 +247,7 @@
           <input type="radio" name="sex" id="sexF"><label class="opt" for="sexF">여</label>
         </div>
       </div>
-      <div class="field"><label>태어난 곳</label><input type="text" id="inPlace" list="cityList" value="서울" placeholder="도시명 입력" style="width:8.5em" autocomplete="off"><datalist id="cityList"></datalist></div>
+      <div class="field"><label>태어난 곳</label><input type="text" id="inPlace" list="cityList" value="부산" placeholder="도시명 입력" style="width:8.5em" autocomplete="off"><datalist id="cityList"></datalist></div>
     </div>
     <div class="form-foot">
       <label class="chk"><input type="checkbox" id="noTime"> 태어난 시간을 몰라요</label>
@@ -262,7 +262,7 @@
   <!-- 결과 -->
   <div id="result">
     <nav class="qnav">
-      <a href="#c-me">프로필</a><a href="#c-wonguk">원국</a><a href="#c-ohaeng">오행</a><a href="#c-sibsin">십신</a><a href="#c-ilgan">성격</a><a href="#c-care">셀프케어</a><a href="#c-fortune">종합운세</a><a href="#c-daeun">대운·세운</a><a href="#c-sum">요약</a><a href="#c-consult">상담소</a>
+      <a href="#c-me">프로필</a><a href="#c-wonguk">원국</a><a href="#c-ohaeng">오행</a><a href="#c-sibsin">십신</a><a href="#c-ilgan">성격</a><a href="#c-care">셀프케어</a><a href="#c-fortune">종합운세</a><a href="#c-daeun">대운·세운</a><a href="#c-sum">요약</a><a href="#c-consult">상담소</a><a href="#c-gunghap">궁합</a>
     </nav>
     <div class="card" id="c-me">
       <h2>👤 나는 어떤 사람일까?</h2>
@@ -323,6 +323,37 @@
         <input type="text" id="consultQ" placeholder="" maxlength="200">
         <button id="btnConsult">상담하기</button>
       </div>
+    </div>
+
+    <div class="card" id="c-gunghap">
+      <h2>💞 관계·궁합 보기 (선택)</h2>
+      <p style="font-size:0.9rem;color:var(--ink-soft);margin-bottom:12px;">다른 사람의 생년월일시를 입력하면 나와 그 사람의 관계·궁합을 풀어드립니다. 연인·배우자뿐 아니라 가족·친구·동료 관계도 볼 수 있어요.</p>
+      <div class="form-grid">
+        <div class="field"><label>이름 (선택)</label><input type="text" id="ghName" placeholder="상대 이름" style="width:7.5em"></div>
+        <div class="field"><label>년</label><input type="number" id="ghY" min="1900" max="2100" style="width:5.4em"></div>
+        <div class="field"><label>월</label><input type="number" id="ghM" min="1" max="12" style="width:4em"></div>
+        <div class="field"><label>일</label><input type="number" id="ghD" min="1" max="31" style="width:4em"></div>
+        <div class="field"><label>시</label><input type="number" id="ghH" min="0" max="23" style="width:4em"></div>
+        <div class="field"><label>분</label><input type="number" id="ghMin" min="0" max="59" style="width:4em"></div>
+        <div class="field">
+          <label>성별</label>
+          <div class="radio-row">
+            <input type="radio" name="ghSex" id="ghSexM" checked><label class="opt" for="ghSexM">남</label>
+            <input type="radio" name="ghSex" id="ghSexF"><label class="opt" for="ghSexF">여</label>
+          </div>
+        </div>
+        <div class="field"><label>태어난 곳</label><input type="text" id="ghPlace" list="cityList" value="서울" style="width:8.5em" autocomplete="off"></div>
+        <div class="field"><label>나와의 관계</label><select id="ghRel">
+          <option>연인</option><option>배우자</option><option>썸·소개팅 상대</option>
+          <option>친구</option><option>직장 동료·파트너</option><option>가족</option><option>자녀</option>
+        </select></div>
+      </div>
+      <div class="form-foot">
+        <label class="chk"><input type="checkbox" id="ghNoTime"> 태어난 시간을 몰라요</label>
+        <button id="btnGh" style="padding:12px 28px;border:none;border-radius:13px;background:var(--grad);color:#fff;font-family:inherit;font-size:0.95rem;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(13,92,60,.25);">궁합 보기</button>
+      </div>
+      <div class="interp" id="ghBox" style="margin-top:14px;"></div>
+      <div class="interp" id="ghAi"></div>
     </div>
   </div>
 
@@ -698,6 +729,27 @@ const ILGAN_PLUS = {
   8: { s: '지혜, 포용력, 큰 스케일, 유연함', w: '산만함, 방향 상실, 계획만 커지는 경향', env: '큰 그림을 그리는 기획·전략, 자율성이 보장되는 환경' },
   9: { s: '총명함, 직관, 감수성, 공감력', w: '감정 기복, 우유부단, 내면 소모', env: '통찰이 필요한 연구·상담·창작, 차분한 환경' },
 };
+// 일간별 단점 보완 조언 (구체적 실천법)
+const ILGAN_ADVICE = {
+  0: '큰 결정 전에 "반대 의견 3개 듣기"를 규칙으로 만들어 보세요. 고집이 아니라 검증을 거친 확신이 되면, 꺾일 일 자체가 줄어듭니다. 실패했을 때는 방향 수정이지 패배가 아니라고 스스로에게 말해 주는 연습이 필요합니다.',
+  1: '결정을 남에게 미루고 싶어질 때 "일단 내 답을 먼저 적고 나서" 조언을 구해 보세요. 작은 결정(메뉴, 일정)부터 즉시 혼자 정하는 훈련을 하면 우유부단이 줄고, 기댈 곳이 없어도 흔들리지 않는 뿌리가 생깁니다.',
+  2: '시작한 일 중 하나를 정해 "끝까지 완성하는 경험"을 의도적으로 만들어 보세요. 열정이 식기 전 마감일을 먼저 박아두는 것이 요령입니다. 욱하는 순간에는 답장·결정을 하루 미루는 것만으로 후회의 대부분이 사라집니다.',
+  3: '속으로 태우는 성격이니 감정을 꺼내놓는 정기 통로(일기, 신뢰하는 한 사람과의 대화)를 만들어 두세요. 예민함은 감각이 뛰어나다는 뜻이기도 하므로, 혼자 회복하는 시간을 죄책감 없이 확보하는 것이 핵심입니다.',
+  4: '한 달에 한 번은 안 가본 곳·안 하던 방식을 일부러 시도해 보세요. 변화가 위험이 아니라 선택지라는 감각이 생기면 뚝심이 진짜 무기가 됩니다. 속마음은 "말 안 해도 알겠지" 대신 짧게라도 직접 표현하는 연습이 필요합니다.',
+  5: '걱정이 많아질 때는 "지금 내가 통제할 수 있는 것"만 종이에 적고 나머지는 접어두세요. 자기 표현을 늘리는 것이 최대 과제이니, 회의나 모임에서 하루 한 번은 내 의견을 먼저 말하는 작은 규칙을 추천합니다.',
+  6: '직설이 상처가 되지 않도록 "사실 → 인정 → 제안" 순서로 말하는 습관을 들여 보세요(예: 지적 전에 잘한 점 하나 언급). 융통성은 약해서가 아니라 목표를 위해 우회하는 전략임을 받아들이면 충돌이 크게 줄어듭니다.',
+  7: '완벽주의가 발목을 잡을 때는 "80%면 일단 내보낸다"는 기준을 정해 보세요. 비판을 받으면 하루 묵혔다가 다시 읽는 습관이 상처를 줄입니다. 남의 흠보다 잘한 점을 먼저 말하는 연습이 관계의 날을 부드럽게 합니다.',
+  8: '아이디어가 커질 때마다 "이번 주에 할 수 있는 첫 걸음 하나"로 쪼개 보세요. 큰 그림은 강점이니 버리지 말고, 마감과 우선순위라는 물길만 만들어 주면 됩니다. 산만해질 때는 하루 3가지 핵심 일만 정하는 방식이 잘 맞습니다.',
+  9: '기분이 결정을 흔들 때는 "감정은 정보일 뿐, 결론이 아니다"라고 한 박자 쉬어 보세요. 결정 기준(예: 돈·시간·마음 중 우선순위)을 미리 정해두면 우유부단이 줄고, 감수성은 온전히 재능으로 쓸 수 있게 됩니다.',
+};
+// 오행별 건강 보완 실천법
+const ORGAN_CARE = {
+  '木': '과음 줄이기, 스크린 볼 때 20분마다 먼 곳 보며 눈 쉬기, 초록 잎채소 챙겨 먹기, 자기 전 스트레칭으로 근육·신경 풀어주기',
+  '火': '주 3회 이상 가벼운 유산소로 순환 돕기, 카페인·에너지음료 과다 주의, 혈압 정기 체크, 감정을 쌓아두지 말고 그때그때 풀기',
+  '土': '식사 시간을 일정하게, 과식·야식 줄이기, 찬 음식보다 따뜻한 음식, 식후 10분 가벼운 산책으로 소화 돕기',
+  '金': '실내 환기·가습 신경 쓰기, 유산소로 폐활량 키우기, 피부 보습과 자외선 차단, 흡연자라면 금연이 최우선',
+  '水': '물 하루 1.5~2L 충분히 마시기, 짠 음식 줄이기, 하체·허리 보온, 무리한 다이어트와 수면 부족 피하기',
+};
 // 세운(해별 운세) — 그 해 천간의 십신 기준
 const YEAR_SS_TEXT = {
   '비견': '자립심이 커지는 해 — 독립·창업 욕구가 생기고 동료의 도움도 받지만, 그만큼 지출도 함께 늘어납니다.',
@@ -1013,6 +1065,7 @@ function render(r, input) {
     <h3>${il.t}</h3><p>${il.d}</p>
     <p><b>타고난 강점</b> — ${ilp.s}</p>
     <p><b>보완할 점</b> — ${ilp.w}</p>
+    <p><b>보완 조언</b> — ${ILGAN_ADVICE[dayStem]}</p>
     <p><b>어울리는 환경</b> — ${ilp.env}</p>
     <h3>음양 균형</h3><p>${yangTxt}</p>
     <h3>${str.strong ? '신강(身強) 사주' : '신약(身弱) 사주'} <span class="pill">일간 세력 ${(str.ratio * 100).toFixed(0)}%</span></h3>
@@ -1191,7 +1244,9 @@ function render(r, input) {
   };
   const care = [];
   care.push('<h3>🏃 건강 관리 방법</h3>');
-  care.push(`<p><b>우선 관리 부위</b> — 사주에서 가장 약한 <b class="txt-${weakEl}">${weakEl}(${EL_KO[weakEl]})</b> 기운과 연결된 <b>${ORGAN[weakEl]}</b>이 이 사주의 건강 아킬레스건입니다. 건강검진 때 이 부위를 우선 확인하고, 무리 신호가 오면 미루지 말고 관리하세요.</p>`);
+  care.push(`<p><b>타고난 강점</b> — 가장 강한 <b class="txt-${sorted[0][0]}">${sorted[0][0]}(${EL_KO[sorted[0][0]]})</b> 기운 덕분에 <b>${ORGAN[sorted[0][0]]}</b> 계통은 기본 활력이 좋은 편입니다. 다만 강한 기운도 과로가 겹치면 그쪽부터 부담이 오니 "튼튼하다고 막 쓰는" 것만 조심하세요.</p>`);
+  care.push(`<p><b>약점(우선 관리 부위)</b> — 가장 약한 <b class="txt-${weakEl}">${weakEl}(${EL_KO[weakEl]})</b> 기운과 연결된 <b>${ORGAN[weakEl]}</b>이 이 사주의 건강 아킬레스건입니다. 건강검진 때 이 부위를 우선 확인하세요.</p>`);
+  care.push(`<p><b>약점 보완 조언</b> — ${ORGAN_CARE[weakEl]}.</p>`);
   care.push(`<p><b>운동 기준(WHO 권장)</b> — 일주일에 <b>중강도 유산소 150~300분</b>(빠르게 걷기, 자전거 등. 하루 30분 × 5일이면 충족) 또는 고강도 75~150분, 여기에 <b>주 2회 이상 근력 운동</b>이 표준입니다. 오래 앉아 있는 것 자체가 위험 요인이니 1시간에 한 번은 일어나 몸을 풀어 주세요.</p>`);
   care.push(`<p><b>내 사주에 맞는 운동</b> — ${str.strong
     ? '신강한 사주라 기운을 밖으로 쏟아내는 운동(달리기·구기·등산 등 땀나는 활동)이 잘 맞고, 스트레스 해소 효과도 그만큼 큽니다'
@@ -1244,6 +1299,8 @@ function render(r, input) {
     <h3>👎 단점 (보완하면 되는 것)</h3>
     <p>${meWeaks.map(s => `<span class="pill" style="background:#fdf0ee;color:#a94436;">${s}</span>`).join(' ')}</p>
     <p>단점은 성격의 결함이 아니라 장점이 과할 때 나오는 그림자입니다. ${ilp.w.split(', ')[0]}이(가) 느껴질 때가 바로 한 템포 쉬어갈 신호입니다.</p>
+    <h3>💡 단점을 보완하는 조언</h3>
+    <p>${ILGAN_ADVICE[dayStem]}</p>
     <p style="font-size:0.78rem;color:var(--ink-muted);">아래 카드에서 이 성격이 어떻게 나왔는지(원국·오행·십신) 차례로 풀어드립니다.</p>`;
 
   // ---- 대운 ----
@@ -1832,6 +1889,164 @@ $('recCsv').addEventListener('click', () => {
 $('recClear').addEventListener('click', () => {
   if (confirm('조회 기록을 전부 삭제할까요?')) { localStorage.removeItem('sajuRecords'); renderRecords(); }
 });
+
+/* ============================================================
+   관계·궁합 보기
+   ============================================================ */
+// 천간합: 갑기(토) 을경(금) 병신(수) 정임(목) 무계(화)
+const STEM_HAP_PAIR = { 0: 5, 5: 0, 1: 6, 6: 1, 2: 7, 7: 2, 3: 8, 8: 3, 4: 9, 9: 4 };
+const YUKHAP = [[0, 1], [2, 11], [3, 10], [4, 9], [5, 8], [6, 7]];   // 지지 육합
+const CHUNG = [[0, 6], [1, 7], [2, 8], [3, 9], [4, 10], [5, 11]];    // 지지 충
+const SAMHAP = [[8, 0, 4], [11, 3, 7], [2, 6, 10], [5, 9, 1]];       // 삼합 그룹
+const pairIn = (list, a, b) => list.some(p => (p[0] === a && p[1] === b) || (p[0] === b && p[1] === a));
+const inSamhap = (a, b) => a !== b && SAMHAP.some(g => g.includes(a) && g.includes(b));
+let ghLast = null;
+
+function ghSyncTime() { $('ghH').disabled = $('ghMin').disabled = $('ghNoTime').checked; }
+$('ghNoTime').addEventListener('change', ghSyncTime);
+ghSyncTime();
+
+$('btnGh').addEventListener('click', () => {
+  if (!lastCtx) { alert('먼저 위에서 내 사주를 조회해 주세요. ("사주 보기" 버튼)'); return; }
+  const oInput = {
+    year: +$('ghY').value, month: +$('ghM').value, day: +$('ghD').value,
+    hour: +$('ghH').value, minute: +$('ghMin').value,
+    isMale: $('ghSexM').checked, unknownTime: $('ghNoTime').checked,
+    solarTimeCorrection: lastCtx.input.solarTimeCorrection,
+  };
+  if (!oInput.year || oInput.year < 1900 || oInput.year > 2100) { alert('상대의 년도를 1900~2100 사이로 입력해 주세요.'); return; }
+  if (!oInput.month || oInput.month < 1 || oInput.month > 12) { alert('상대의 월을 1~12 사이로 입력해 주세요.'); return; }
+  const dt = new Date(oInput.year, oInput.month - 1, oInput.day);
+  if (!oInput.day || dt.getMonth() !== oInput.month - 1) { alert('상대의 날짜가 존재하지 않습니다. 다시 확인해 주세요.'); return; }
+  if (!oInput.unknownTime && (isNaN(oInput.hour) || oInput.hour < 0 || oInput.hour > 23)) { alert('상대의 시를 0~23 사이로 입력해 주세요.'); return; }
+  if (!oInput.unknownTime && (isNaN(oInput.minute) || oInput.minute < 0 || oInput.minute > 59)) { alert('상대의 분을 0~59 사이로 입력해 주세요.'); return; }
+  const city = findCity($('ghPlace').value.trim()) || CITIES[0];
+  oInput.place = city.n;
+  oInput.tzOffsetMin = tzOffsetMinutes(city.tz, oInput.year, oInput.month, oInput.day,
+    oInput.unknownTime ? 12 : (oInput.hour || 0), oInput.unknownTime ? 0 : (oInput.minute || 0));
+  oInput.lmtCorrMin = Math.round(city.lon * 4 - oInput.tzOffsetMin);
+  const oR = computeSaju(oInput);
+  ghLast = { r: oR, input: oInput, name: ($('ghName').value || '').trim() || '상대', rel: $('ghRel').value };
+  renderGunghap();
+});
+
+function renderGunghap() {
+  const C = lastCtx, o = ghLast;
+  const me = C.r, myName = (C.input && $('inName').value.trim()) || '나';
+  const gzF = p => `${STEMS[p.stem].k}${BRANCHES[p.branch].k}(${STEMS[p.stem].h}${BRANCHES[p.branch].h})`;
+  const mDS = me.dp.stem, oDS = o.r.dp.stem;
+  const mEl = STEMS[mDS].e, oEl = STEMS[oDS].e;
+  const items = [];
+  let score = 0;
+
+  // ① 일간(두 사람의 본질) 관계
+  if (STEM_HAP_PAIR[mDS] === oDS) {
+    score += 3;
+    items.push(`💞 <b>일간 천간합</b> — 나의 ${STEMS[mDS].h}과 ${o.name}의 ${STEMS[oDS].h}은 서로를 끌어당기는 <b>합(合)</b>의 관계입니다. 명리에서 손꼽는 인연의 짝으로, 함께 있으면 자연스럽게 편안해지는 조합입니다.`);
+  } else if (mEl === oEl) {
+    score += 1;
+    items.push(`🤝 <b>같은 ${EL_KO[mEl]} 기운의 일간</b> — 서로를 잘 이해하는 친구 같은 조합입니다. 다만 성향이 닮은 만큼 부딪힐 때는 똑같이 물러서지 않으니, 먼저 져주는 쪽이 이기는 관계입니다.`);
+  } else if (GEN_NEXT[oEl] === mEl) {
+    score += 2;
+    items.push(`🌱 <b>${o.name}이(가) 나를 생(生)해주는 관계</b> — ${EL_KO[oEl]} 기운이 나의 ${EL_KO[mEl]} 기운을 키워줍니다. 상대에게서 힘과 도움을 받는 구조라, 나에게 귀인 같은 사람입니다. 받기만 하지 않도록 표현과 보답을 챙기면 오래갑니다.`);
+  } else if (GEN_NEXT[mEl] === oEl) {
+    score += 2;
+    items.push(`🌱 <b>내가 ${o.name}을(를) 생(生)해주는 관계</b> — 나의 ${EL_KO[mEl]} 기운이 상대의 ${EL_KO[oEl]} 기운을 키워줍니다. 내가 챙겨주고 이끌어주는 구조인데, 그만큼 내 에너지가 소모되니 나를 위한 충전 시간도 지키세요.`);
+  } else if (OVERCOME[mEl] === oEl) {
+    items.push(`⚡ <b>내가 ${o.name}을(를) 극(剋)하는 관계</b> — 내가 주도권을 쥐기 쉬운 조합입니다. 리드하는 힘이 좋게 작용하면 든든한 관계가 되지만, 지시·간섭으로 흐르면 상대가 지칩니다. 상대의 방식을 존중하는 것이 관건입니다.`);
+  } else {
+    items.push(`⚡ <b>${o.name}이(가) 나를 극(剋)하는 관계</b> — 상대가 주도권을 쥐기 쉬운 조합입니다. 적당한 긴장감은 나를 성장시키지만, 눌린다는 느낌이 쌓이면 힘들어집니다. 내 의견을 분명히 말하는 것이 관계의 균형을 지킵니다.`);
+  }
+
+  // ② 일지(배우자궁·생활 궁합) 관계
+  const mDB = me.dp.branch, oDB = o.r.dp.branch;
+  if (pairIn(YUKHAP, mDB, oDB)) { score += 2; items.push(`🏠 <b>일지 육합</b> — 생활 습관과 속마음이 잘 맞물리는 <b>합</b>입니다. 같이 지낼수록 편해지는 조합으로, 특히 부부·동거 궁합에서 좋게 봅니다.`); }
+  else if (inSamhap(mDB, oDB)) { score += 2; items.push(`🏠 <b>일지 삼합</b> — 같은 목표를 향해 자연스럽게 힘을 합치는 조합입니다. 함께 일을 도모하거나 살림을 꾸릴 때 시너지가 납니다.`); }
+  else if (pairIn(CHUNG, mDB, oDB)) { score -= 2; items.push(`💥 <b>일지 충(沖)</b> — 생활 방식과 속마음의 자리가 부딪히는 조합입니다. 나쁘기만 한 것은 아니고 서로를 자극해 변화시키는 힘도 있지만, 같은 공간에서 오래 지내면 사소한 습관 차이로 다투기 쉬우니 "다름"을 전제로 규칙을 정해두면 좋습니다.`); }
+  else items.push(`🏠 <b>일지 관계 무난</b> — 생활 궁합에 큰 합도 충도 없어, 서로 맞춰가기 나름인 백지 상태입니다.`);
+
+  // ③ 띠(년지) 관계
+  const mYB = me.yp.branch, oYB = o.r.yp.branch;
+  if (pairIn(YUKHAP, mYB, oYB) || inSamhap(mYB, oYB)) { score += 1; items.push(`🐾 <b>띠 궁합 좋음</b> — ${BRANCHES[mYB].animal}띠와 ${BRANCHES[oYB].animal}띠는 합이 되는 조합으로, 집안·어른들 사이 인연도 순조로운 편입니다.`); }
+  else if (pairIn(CHUNG, mYB, oYB)) { score -= 1; items.push(`🐾 <b>띠 충</b> — ${BRANCHES[mYB].animal}띠와 ${BRANCHES[oYB].animal}띠는 충이라 어른들이 흔히 "띠가 안 맞는다"고 하는 조합입니다. 다만 띠는 궁합의 겉껍질일 뿐, 일간·일지 관계가 더 중요하니 참고만 하세요.`); }
+
+  // ④ 오행 상호 보완
+  const oSorted = ELEMENTS.map(el => [el, o.r.dist[el]]).sort((a, b) => b[1] - a[1]);
+  if (oSorted[0][0] === C.luckEl || (C.luckEl2 && oSorted[0][0] === C.luckEl2)) {
+    score += 2;
+    items.push(`🍀 <b>나를 채워주는 사람</b> — 나에게 가장 필요한 ${EL_KO[C.luckEl]} 기운${oSorted[0][0] === C.luckEl ? '' : `(보조 ${EL_KO[C.luckEl2]})`}을 ${o.name}이(가) 듬뿍 갖고 있습니다. 함께 있는 것만으로 내 사주의 빈 곳이 메워지는, 개운(開運) 효과가 있는 인연입니다.`);
+  }
+  const oWeak = oSorted[4][0];
+  if (C.sorted[0][0] === oWeak) {
+    score += 1;
+    items.push(`🍀 <b>내가 채워주는 사람</b> — 반대로 ${o.name}에게 부족한 ${EL_KO[oWeak]} 기운을 내가 갖고 있어, 상대에게도 내가 힘이 되는 존재입니다.`);
+  }
+
+  // 종합
+  const verdict = score >= 5 ? ['💕', '아주 좋은 인연입니다'] : score >= 3 ? ['💗', '좋은 인연입니다'] : score >= 1 ? ['🙂', '무난한 인연입니다'] : ['🤝', '노력으로 만들어가는 인연입니다'];
+  const relNote = {
+    '연인': '연인 관계에서는 일간·일지의 합충이 감정의 온도를 좌우합니다.',
+    '배우자': '부부 관계에서는 일지(생활 궁합)의 비중이 가장 큽니다.',
+    '썸·소개팅 상대': '초반 호감은 일간 관계, 오래가는 힘은 일지 관계를 보세요.',
+    '친구': '친구 관계는 충이 있어도 서로를 자극하는 좋은 라이벌이 되기도 합니다.',
+    '직장 동료·파트너': '일·협업 관계에서는 오행 보완(서로 채워주는 기운)이 실질적인 시너지입니다.',
+    '가족': '가족은 선택이 아닌 인연이라, 충이 있다면 적당한 거리와 각자의 공간이 오히려 관계를 지킵니다.',
+    '자녀': '자녀와의 관계에서 극(剋)이 있다면 통제보다 응원의 언어를 쓸 때 아이가 큽니다.',
+  }[o.rel] || '';
+  $('ghBox').innerHTML = `
+    <p style="background:var(--accent-soft);border-radius:12px;padding:12px 15px;font-size:1rem;">
+      ${verdict[0]} <b>${myName}(${gzF(me.dp)}일주) × ${escHtml(o.name)}(${gzF(o.r.dp)}일주)</b> — <b>${o.rel}</b> 궁합, ${verdict[1]}
+    </p>
+    ${items.map(t => `<p>${t}</p>`).join('')}
+    <p style="font-size:0.86rem;color:var(--ink-soft);">${relNote}</p>
+    <p style="font-size:0.76rem;color:var(--ink-muted);">※ 궁합은 두 사주의 상호작용에 대한 참고 의견입니다. 관계를 만드는 것은 결국 두 사람의 마음과 노력입니다.</p>
+    ${AI.on ? '<button id="ghAiBtn" class="btn-sub" style="margin-top:6px;">🤖 AI 심층 관계 분석 보기</button>' : ''}`;
+  $('ghAi').innerHTML = '';
+  const btn = $('ghBox').querySelector('#ghAiBtn');
+  if (btn) btn.addEventListener('click', () => ghAiAnalyze(btn));
+}
+
+function ghChartText(r, input, label) {
+  const gzF = p => p ? `${STEMS[p.stem].k}${BRANCHES[p.branch].k}(${STEMS[p.stem].h}${BRANCHES[p.branch].h})` : '시간 미상';
+  const ds = r.dp.stem;
+  return `[${label}] ${input.isMale ? '남성' : '여성'}, ${input.year}-${input.month}-${input.day} ${input.unknownTime ? '(시간 미상)' : String(input.hour).padStart(2, '0') + ':' + String(input.minute).padStart(2, '0')}, ${input.place || '서울'} 출생
+원국: 년주 ${gzF(r.yp)} / 월주 ${gzF(r.mp)} / 일주 ${gzF(r.dp)} / 시주 ${r.hp ? gzF(r.hp) : '미상'}
+일간: ${STEMS[ds].h}(${STEMS[ds].k}${EL_KO[STEMS[ds].e]}), ${r.str.strong ? '신강' : '신약'} (세력 ${(r.str.ratio * 100).toFixed(0)}%)
+오행 분포: ${ELEMENTS.map(el => `${EL_KO[el]} ${r.dist[el].toFixed(1)}`).join(', ')}`;
+}
+
+async function ghAiAnalyze(btn) {
+  const o = ghLast;
+  btn.disabled = true; btn.textContent = '분석 중…';
+  const box = $('ghAi');
+  box.innerHTML = '<p style="color:var(--ink-muted)">🤔 두 사주의 관계를 깊이 분석하는 중…</p>';
+  let text = '';
+  try {
+    await claudeStream({
+      system: `당신은 30년 경력의 명리학 궁합 전문 상담가입니다. 아래 두 사람의 사주를 근거로 관계를 분석합니다.
+
+${ghChartText(lastCtx.r, lastCtx.input, '나')}
+
+${ghChartText(o.r, o.input, o.name)}
+
+[관계] ${o.rel}
+
+[분석 원칙]
+- 반드시 두 사주의 실제 글자(일간 합충, 일지·년지 합충, 오행 보완, 십신 상호관계)를 근거로 말하세요.
+- 좋은 점과 부딪히는 점을 균형 있게 다루고, 부딪히는 지점마다 구체적인 대처법을 제시하세요.
+- "${o.rel}" 관계라는 맥락에 맞게 조언하세요.
+- 존댓말, 500~800자, **굵게**와 줄바꿈만 사용. 마지막에 관계는 결국 노력이 만든다는 취지를 한 문장으로.`,
+      maxTokens: 4096,
+      messages: [{ role: 'user', content: `나와 ${o.name}(${o.rel})의 궁합을 심층 분석해 주세요.` }],
+      onText: t => { text += t; box.innerHTML = mdLite(text); },
+    });
+    box.innerHTML = mdLite(text) + '<div class="disc">※ Claude AI 분석 · 명리학 일반론에 따른 참고 의견입니다.</div>';
+    btn.textContent = '🤖 AI 심층 관계 분석 보기'; btn.disabled = false;
+  } catch (err) {
+    box.innerHTML = `<p style="color:var(--ink-soft)">⚠️ AI 분석 실패: ${escHtml(err.message)}</p>`;
+    btn.disabled = false; btn.textContent = '🤖 다시 시도';
+  }
+}
 
 /* ============================================================
    건의사항 — mailto로 메일 앱을 열어 전달
