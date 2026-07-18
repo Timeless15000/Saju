@@ -1259,11 +1259,14 @@ function render(r, input) {
   care.push(`<p><b>즉효 처방 (2~3분)</b> — 스트레스가 올라오는 순간 <b>복식호흡 4-4-6</b>: 코로 4초 들이마시고 → 4초 멈추고 → 입으로 6초 길게 내쉬기를 5회. 부교감신경이 활성화되어 심박과 긴장이 실제로 내려갑니다. 화가 나는 상황에서는 반응하기 전 "멈추고, 호흡하고, 관찰하고, 그다음 행동"(STOP) 순서를 기억하세요.</p>`);
   care.push(`<p><b>꾸준한 처방</b> — 하루 <b>10분 마음챙김(명상)</b>은 가끔 길게 하는 것보다 짧게 매일 하는 편이 효과가 큽니다. 스트레스 받은 직후의 <b>20분 걷기</b>는 스트레스 호르몬(코르티솔)을 낮추는 가장 간단하고 확실한 방법입니다 — 점심 산책이 곧 약입니다.</p>`);
   care.push(`<p><b>취미 방어선</b> — 주 2~3회 업무와 무관한 취미 시간을 확보한 직장인은 번아웃 발생률이 뚜렷하게 낮습니다. 이 사주에는 ${HOBBY_REC[topG]}가 잘 맞습니다.</p>`);
-  care.push('<h3>💼 직장생활에 필요한 것</h3>');
-  care.push(`<p><b>나에게 꼭 필요한 조건</b> — ${topG} 발달 사주가 직장에서 가장 필요로 하는 것은 ${WORK_NEED[topG]}</p>`);
-  care.push(`<p><b>일하는 방식</b> — ${str.strong
-    ? '신강한 사주는 지시받는 실무자보다 책임지고 끌고 가는 자리에서 스트레스가 오히려 줄어듭니다. 회의에서 의견을 내고 역할을 키우는 방향이 곧 멘탈 관리입니다.'
-    : '신약한 사주는 혼자 다 끌어안을 때 가장 빨리 소진됩니다. 일을 나누고, 도움을 요청하고, 좋은 동료·상사를 내 편으로 만드는 것이 실력만큼 중요한 생존 전략입니다.'}</p>`);
+  care.push('<h3>💼 일과 사업에 필요한 것</h3>');
+  care.push(`<p><b>나에게 꼭 필요한 조건</b> — ${topG} 발달 사주가 일에서 가장 필요로 하는 것은 ${WORK_NEED[topG]}</p>`);
+  care.push(`<p><b>사업가·리더라면</b> — ${str.strong
+    ? '결정하고 끌고 가는 힘이 있는 오너형입니다. 다만 모든 것을 직접 쥐면 내가 곧 병목이 되니, 사람을 믿고 맡기는 위임이 사업을 키우는 열쇠입니다.'
+    : '신약한 오너는 혼자 다 짊어질 때 건강과 판단이 함께 무너집니다. 믿을 만한 2인자, 재무·운영의 시스템화, 그리고 규모보다 현금흐름 중심의 경영이 오래가는 전략입니다.'}${nBi >= 3 ? ' 동업·지분은 반드시 서류로 명확히 — 비겁이 강해 가까운 사람과 돈이 얽히면 흩어집니다.' : ''}${nSik >= 1 && nJae >= 1 ? ' 식상생재 구조라 내 상품·서비스를 만들어 파는 모델이 가장 큰 돈줄입니다.' : ''}</p>`);
+  care.push(`<p><b>직장인이라면</b> — ${str.strong
+    ? '지시받는 실무자보다 책임지고 끌고 가는 자리에서 스트레스가 오히려 줄어듭니다. 회의에서 의견을 내고 역할을 키우는 방향이 곧 멘탈 관리입니다.'
+    : '혼자 다 끌어안을 때 가장 빨리 소진됩니다. 일을 나누고, 도움을 요청하고, 좋은 동료·상사를 내 편으로 만드는 것이 실력만큼 중요한 생존 전략입니다.'}</p>`);
   care.push(`<p><b>번아웃 예방 루틴</b> — ① 퇴근 후 업무 알림 끄기 (일과 휴식의 분리가 회복의 최대 변수) ② 90분 집중 + 5분 미세 휴식의 리듬으로 일하기 ③ 점심시간 20분 산책 ④ 연차는 한 번에 몰아 쓰기보다 주기적으로 나눠 쓰기. 번아웃은 큰 휴식이 없어서가 아니라 <b>작은 회복이 반복되지 않아서</b> 옵니다.</p>`);
   care.push('<p style="font-size:0.76rem;color:var(--ink-muted);">※ 운동·수면 수치는 WHO 신체활동 가이드라인 등 공인 기준, 스트레스 기법은 연구로 효과가 확인된 방법들입니다. 증상이 있을 때는 전문의 진료가 우선입니다.</p>');
   $('careBox').innerHTML = care.join('');
@@ -1414,12 +1417,17 @@ $('btnGo').addEventListener('click', () => {
    사주 상담 엔진 (규칙 기반)
    ============================================================ */
 const TOPICS = [
-  { key: 'biz', label: '사업·재물', kw: ['사업', '인수', '창업', '투자', '장사', '가게', '확장', '매수', '주식', '코인', '오픈', '돈', '재물', '수익', '대출'], fav: ['재성', '식상'], badSS: ['겁재'] },
-  { key: 'job', label: '직장·명예', kw: ['이직', '취업', '취직', '승진', '직장', '회사', '퇴사', '면접', '커리어'], fav: ['관성', '인성'], badSS: ['상관'] },
-  { key: 'exam', label: '학업·시험', kw: ['시험', '공부', '자격', '합격', '학위', '유학', '고시'], fav: ['인성', '관성'], badSS: [] },
-  { key: 'love', label: '결혼·인연', kw: ['결혼', '연애', '인연', '이성', '배우자', '소개팅', '재혼'], fav: [], badSS: [] },
-  { key: 'move', label: '이사·계약·부동산', kw: ['이사', '이동', '계약', '문서', '전세', '매매', '분양', '부동산', '집'], fav: ['인성', '재성'], badSS: [] },
-  { key: 'health', label: '건강', kw: ['건강', '수술', '병원', '치료', '몸'], fav: ['인성', '비겁'], badSS: [] },
+  { key: 'biz', label: '사업·경영', kw: ['사업', '인수', '창업', '장사', '가게', '매장', '확장', '오픈', '매출', '직원', '채용', '폐업', '가맹', '프랜차이즈', '경영', '운영', '거래처', '법인', '납품', '매수', '동업'], fav: ['재성', '식상'], badSS: ['겁재'], timing: true },
+  { key: 'invest', label: '투자·재테크', kw: ['투자', '주식', '코인', '펀드', '재테크', '청약', '비트'], fav: ['재성', '식상'], badSS: ['겁재'], timing: true },
+  { key: 'money', label: '재물', kw: ['돈', '재물', '금전', '수입', '대출', '빚', '자산', '부자', '월급', '저축', '수익'], fav: ['재성'], badSS: ['겁재'], timing: true },
+  { key: 'job', label: '직장·명예', kw: ['이직', '취업', '취직', '승진', '직장', '회사', '퇴사', '면접', '커리어', '연봉'], fav: ['관성', '인성'], badSS: ['상관'], timing: true },
+  { key: 'exam', label: '학업·시험', kw: ['시험', '공부', '자격', '합격', '학위', '유학', '고시', '대학', '편입'], fav: ['인성', '관성'], badSS: [], timing: true },
+  { key: 'family', label: '가족', kw: ['가족', '부모', '어머니', '아버지', '엄마', '아빠', '형제', '자매', '자녀', '아이', '아들', '딸', '임신', '육아'], fav: [], badSS: [], timing: false },
+  { key: 'people', label: '사람·대인관계', kw: ['인간관계', '대인관계', '친구', '동료', '상사', '부하', '배신', '인복', '귀인', '인맥', '사람'], fav: [], badSS: [], timing: false },
+  { key: 'love', label: '연애·인연', kw: ['결혼', '연애', '인연', '이성', '배우자', '소개팅', '재혼', '여자', '남자', '여친', '남친', '애인', '이별', '이혼', '만남', '만나', '데이트', '짝'], fav: [], badSS: [], timing: false },
+  { key: 'move', label: '이사·계약·부동산', kw: ['이사', '이동', '계약', '문서', '전세', '매매', '분양', '부동산', '집', '사무실', '자리'], fav: ['인성', '재성'], badSS: [], timing: true },
+  { key: 'health', label: '건강', kw: ['건강', '수술', '병원', '치료', '몸', '아프', '다이어트', '체력'], fav: ['인성', '비겁'], badSS: [], timing: false },
+  { key: 'self', label: '나 자신', kw: ['성격', '장점', '단점', '적성', '타고난', '팔자', '어떤 사람', '인생'], fav: [], badSS: [], timing: false },
 ];
 function parseYears(q, nowY) {
   const ys = new Set();
@@ -1432,16 +1440,21 @@ function parseYears(q, nowY) {
 }
 function consultAnswer(q) {
   const C = lastCtx;
-  let topic = TOPICS.find(t => t.kw.some(k => q.includes(k))) || null;
-  let fav = topic ? [...topic.fav] : [];
-  if (topic && topic.key === 'love') fav = [C.input.isMale ? '재성' : '관성'];
-  const askedYears = parseYears(q, C.nowYear);
-  const scanMode = !askedYears.length;
-  if (!topic && scanMode && !/운세|운|어때|좋|나쁘|언제|시기/.test(q)) {
-    return '질문에서 주제나 시기를 읽지 못했어요. 예를 들어 <b>"사업 인수를 올해 할까 내년에 할까?"</b>, <b>"언제 이직하면 좋을까?"</b>, <b>"2027년 운세 어때?"</b>처럼 물어봐 주세요.';
+  const male = C.input.isMale;
+  // 주제 판별: 걸린 키워드의 글자수 합이 가장 큰 주제 선택 — 길고 구체적인 키워드가 우선 (동점이면 배열 앞쪽)
+  let topic = null, topicHits = 0;
+  for (const t of TOPICS) {
+    const h = t.kw.reduce((s, k) => s + (q.includes(k) ? k.length : 0), 0);
+    if (h > topicHits) { topic = t; topicHits = h; }
   }
-  const years = scanMode ? Array.from({ length: 6 }, (_, i) => C.nowYear + i) : askedYears;
-  const evalYear = (y) => {
+  const askedYears = parseYears(q, C.nowYear);
+  const wantsTiming = askedYears.length > 0 || /언제|시기|타이밍|몇\s*년|몇\s*살|어느\s*해/.test(q);
+  const [nBi, nSik, nJae, nGwan, nIn] = C.groups.map(g => g.n);
+  const luckIlgan = { '木': '갑·을', '火': '병·정', '土': '무·기', '金': '경·신', '水': '임·계' }[C.luckEl];
+  const spouseStarN = male ? nJae : nGwan;
+  const spouseStarName = male ? '재성(財星)' : '관성(官星)';
+
+  const evalYear = (y, fav, badSS, isBiz) => {
     const yi = ((y - 4) % 60 + 60) % 60, ys = yi % 10, yb = yi % 12;
     const sS = sibsin(C.dayStem, ys), sB = sibsin(C.dayStem, branchMainStem(yb));
     const ssS = SIBSIN_NAMES[sS], ssB = SIBSIN_NAMES[sB];
@@ -1450,56 +1463,157 @@ function consultAnswer(q) {
     let score = 0; const why = [];
     if (fav.includes(gS)) { score += 2; why.push(`천간으로 ${gS} 기운(${ssS})이 직접 들어오는 해`); }
     if (fav.includes(gB)) { score += 1; why.push(`지지에서도 ${gB} 기운이 받쳐주는 해`); }
-    if (topic && topic.badSS.includes(ssS)) { score -= 2; why.push(`${ssS}의 해라 ${topic.key === 'biz' ? '재물이 새거나 나눠지기 쉬움' : '마찰·구설을 조심해야 함'}`); }
+    if (badSS.includes(ssS)) { score -= 2; why.push(`${ssS}의 해라 ${isBiz ? '재물이 새거나 나눠지기 쉬움' : '마찰·구설을 조심해야 함'}`); }
     if (elS === C.luckEl || elB === C.luckEl) { score += 2; why.push(`나에게 필요한 ${EL_KO[C.luckEl]} 기운이 들어옴 🍀`); }
     else if (C.luckEl2 && (elS === C.luckEl2 || elB === C.luckEl2)) { score += 1; why.push(`보조로 좋은 ${EL_KO[C.luckEl2]} 기운이 들어옴`); }
     if (elS === C.sorted[0][0] && elB === C.sorted[0][0]) { score -= 1; why.push(`이미 과한 ${EL_KO[C.sorted[0][0]]} 기운이 겹쳐 기복 주의`); }
     if (!why.length) why.push(YEAR_SS_TEXT[ssS].split(' — ')[0]);
     return { y, gz: STEMS[ys].k + BRANCHES[yb].k, hj: STEMS[ys].h + BRANCHES[yb].h, ssS, ssB, score, why };
   };
-  const rows = years.map(evalYear);
   const verdict = s => s >= 3 ? '✅ 좋은 시기' : s >= 1 ? '🆗 무난한 시기' : '⚠️ 신중할 시기';
+
   let ans = '';
-  // 사주 구조 코멘트
-  if (topic) {
-    ans += `<b>${topic.label}</b>에 대한 질문이군요. `;
-    if (topic.key === 'biz') {
-      ans += C.str.strong ? '신강한 사주라 일을 벌여도 감당할 힘이 있는 편입니다.' : '신약한 편이라 단독으로 크게 벌이기보다 검증된 파트너·시스템과 함께 가는 것이 안전합니다.';
-      if (C.groups[2].n >= 3 && !C.str.strong) ans += ' 특히 재다신약 기질이 있어 <b>규모 욕심이 최대 리스크</b>입니다.';
-      if (C.groups[2].n === 0) ans += ' 원국에 재성이 드러나지 않아, 시기(세운)를 골라 움직이는 것이 더욱 중요합니다.';
+  if (topic) ans += `<b>${topic.label}</b>에 대한 질문이군요. `;
+
+  switch (topic ? topic.key : '') {
+    case 'biz': {
+      ans += C.str.strong
+        ? '신강한 사주라 일을 벌이고 끌고 가는 오너의 힘이 있습니다. 결정은 직접 하되, 실무는 과감히 위임할수록 판이 커집니다.'
+        : '신약한 사주의 오너는 혼자 다 짊어질 때 가장 위험합니다. 믿을 만한 2인자와 시스템(재무·운영의 자동화)을 만드는 것이 확장보다 먼저입니다.';
+      if (nJae >= 3 && !C.str.strong) ans += ' 재다신약 기질이 있어 <b>규모 욕심이 최대 리스크</b> — 매출보다 현금흐름을 보세요.';
+      if (nJae === 0) ans += ' 원국에 재성이 드러나지 않아, 사업은 시기(세운)를 골라 움직이는 것이 더욱 중요합니다.';
+      if (nSik >= 1 && nJae >= 1) ans += ' 식상생재 구조라 내 상품·서비스·기술을 만들어 파는 사업 모델이 가장 잘 맞습니다.';
+      if (nBi >= 3) ans += ' 비겁이 강해 동업·지분은 처음부터 서류로 명확히 — 사람 좋다고 나누면 재물이 흩어집니다.';
+      if (nGwan >= 2) ans += ' 관성이 자리해 직원·조직을 다루는 관리형 경영에도 강점이 있습니다.';
+      ans += '<br>';
+      break;
     }
-    if (topic.key === 'job') ans += C.groups[3].n ? ' 원국에 관성이 자리해 조직에서 인정받는 구조입니다.' : ' 원국에 관성이 약해 직장 이동은 세운의 흐름을 타는 것이 중요합니다.';
-    if (topic.key === 'exam') ans += C.groups[4].n ? ' 인성이 있어 배움·합격과 인연이 있는 사주입니다.' : ' 인성이 드러나지 않아 시험은 흐름이 좋은 해를 골라 집중하는 전략이 필요합니다.';
-    if (topic.key === 'love') ans += ` 배우자를 뜻하는 ${C.input.isMale ? '재성' : '관성'}이 들어오는 해가 인연의 해입니다.`;
-    if (topic.key === 'move') ans += ' 이사·계약은 문서운(인성)과 재물운(재성)이 함께 좋은 해가 순리입니다.';
-    if (topic.key === 'health') ans += ` 타고나기로는 ${ORGAN[C.sorted[4][0]]} 쪽이 약한 편이니, 아래 시기와 무관하게 이 부위는 늘 챙기세요.`;
-    ans += '<br>';
+    case 'invest': {
+      ans += C.ssCount[4] > C.ssCount[5]
+        ? '편재 성향이라 돈을 굴리는 감각(투자·시세차익·유통)이 있는 편입니다. 다만 승부욕이 과열되기 쉬우니 총자산 대비 투자 상한선을 미리 정해두세요.'
+        : '정재 성향이라 꾸준히 쌓는 방식(적립식·배당·실물 장기 보유)이 몸에 맞습니다. 단기 급등을 쫓는 매매는 이 사주의 방식이 아닙니다.';
+      ans += C.str.strong ? ' 신강한 편이라 리스크를 감당할 그릇은 있는 사주입니다.' : ' 신약한 편이라 레버리지(빚내서 투자)는 특히 조심해야 합니다.';
+      ans += '<br>';
+      break;
+    }
+    case 'money': {
+      ans += C.str.strong
+        ? (nJae >= 2 ? '일간이 튼튼하고 재성도 뚜렷해, 벌어들인 재물을 스스로 지키고 불릴 수 있는 좋은 구조입니다.' : '재물을 담을 그릇(신강)은 충분합니다. 재성 대운·세운이 들어올 때 기회를 잡으면 크게 불어납니다.')
+        : (nJae >= 3 ? '재물 기회는 많은데 일간이 여린 재다신약 구조라, 무리하게 벌리면 오히려 돈에 시달립니다. 규모를 줄이고 하나씩 다지는 것이 정답입니다.' : '꾸준히 모으면 쌓이는 구조입니다. 큰 레버리지보다 안정적인 축적이 잘 맞습니다.');
+      ans += ` 나의 재물 오행은 ${OVERCOME[STEMS[C.dayStem].e]}(${EL_KO[OVERCOME[STEMS[C.dayStem].e]]}) — 이 기운(${LUCK[OVERCOME[STEMS[C.dayStem].e]][0]}, ${LUCK[OVERCOME[STEMS[C.dayStem].e]][1]})을 생활에 들이면 재물운에 힘이 됩니다.`;
+      ans += '<br>';
+      break;
+    }
+    case 'job': {
+      ans += nGwan ? '원국에 관성이 자리해 조직에서 인정받는 구조입니다.' : '원국에 관성이 약해 직장 이동은 세운의 흐름을 타는 것이 중요합니다.';
+      ans += C.str.strong ? ' 신강하니 책임 있는 자리로 갈수록 능력치가 올라갑니다.' : ' 신약하니 좋은 조직·상사를 만나는 것이 실력만큼 중요합니다.';
+      ans += '<br>';
+      break;
+    }
+    case 'exam': {
+      ans += nIn ? '인성이 있어 배움·합격과 인연이 있는 사주입니다.' : '인성이 드러나지 않아 시험은 흐름이 좋은 해를 골라 집중하는 전략이 필요합니다.';
+      ans += '<br>';
+      break;
+    }
+    case 'love': {
+      ans += male
+        ? `명리에서 남성에게 이성(여성)은 <b>재성(財星)</b> — 재물과 같은 글자로 봅니다. 즉 당신에게 여자는 "다스리고 책임지는 대상이자, 삶의 결실"과 연결된 존재입니다. `
+        : `명리에서 여성에게 이성(남성)은 <b>관성(官星)</b> — 명예·사회적 자리와 같은 글자로 봅니다. `;
+      if (spouseStarN === 0) ans += `당신의 원국에는 ${spouseStarName}이 드러나 있지 않습니다. 인연이 없다는 뜻이 아니라, 해당 기운이 대운·세운으로 들어올 때 인연이 구체화되는 "때가 정해진" 유형입니다.`;
+      else if (spouseStarN >= 3) ans += `원국에 ${spouseStarName}이 ${spouseStarN}개로 많은 편입니다. 인연도 기회도 많지만 마음이 분산되기 쉬워, 기준을 분명히 세우는 것이 애정운을 지킵니다.`;
+      else ans += `원국에 ${spouseStarName}이 알맞게 자리해 이성과의 인연 흐름이 안정적인 편입니다.`;
+      ans += ` 배우자궁(일지)에는 <b>${C.palaceSS}</b> — ${SPOUSE_PALACE[C.palaceSS]}`;
+      ans += ` 나와 잘 맞는 상대는 ${EL_KO[C.luckEl]} 기운이 강한 사람(${luckIlgan} 일간)입니다.`;
+      const loveFav = [male ? '재성' : '관성'];
+      const near = Array.from({ length: 6 }, (_, i) => evalYear(C.nowYear + i, loveFav, [], false)).filter(r => r.why.some(w => w.includes(loveFav[0]))).slice(0, 2);
+      if (near.length) ans += ` 인연의 기운이 들어오는 가까운 해는 <b>${near.map(r => `${r.y}년(${r.gz})`).join(', ')}</b>입니다.`;
+      ans += '<br>';
+      break;
+    }
+    case 'family': {
+      ans += `가족 인연을 십신으로 보면 — 부모·어른의 후원(인성)은 ${nIn ? `원국에 ${nIn}개 자리해 든든한 편이고 배움·문서의 복으로도 이어집니다` : '겉으로 드러나지 않아 스스로 일어서는 자수성가형에 가깝습니다'}. `;
+      ans += `형제·또래(비겁)는 ${nBi ? (nBi >= 3 ? '많은 편이라 우애와 경쟁이 함께합니다 — 돈 문제만 얽히지 않으면 큰 힘이 됩니다' : '알맞게 있어 서로 기대는 관계가 됩니다') : '약해 각자의 삶을 사는 담백한 관계가 되기 쉽습니다'}. `;
+      ans += `자녀 인연(${male ? '관성' : '식상'})은 ${(male ? nGwan : nSik) ? '원국에 자리해 자녀를 통해 배우고 성장하는 상입니다' : '해당 기운의 대운·세운에서 구체화되는 흐름입니다'}.`;
+      ans += '<br>';
+      break;
+    }
+    case 'people': {
+      ans += nBi >= 3
+        ? '비겁이 강해 주변에 사람이 많이 모이지만 경쟁자와 지출도 함께 옵니다. 사람은 얻되 <b>돈거래·보증만은 금지선</b>으로 정하세요.'
+        : nBi === 0
+          ? '비겁이 드러나지 않아 넓고 얕은 관계보다 소수와 깊게 가는 유형입니다. 인맥이 좁은 게 아니라 스타일이 다른 것입니다.'
+          : '비겁이 알맞아 동료·또래와 균형 있게 어울리는 유형입니다.';
+      ans += nIn ? ` 인성이 ${nIn}개 있어 어른·귀인의 도움을 받는 인복이 있습니다.` : ' 인성이 약해 윗사람 덕보다는 실력과 또래 네트워크로 크는 유형입니다.';
+      if (nSik >= 3) ans += ' 식상이 강해 말로 사람을 얻지만 말로 잃기도 하니, 민감한 자리에서는 한 번 거르고 말하세요.';
+      ans += ` 나에게 귀인은 ${EL_KO[C.luckEl]} 기운이 강한 사람(${luckIlgan} 일간) — 함께 있으면 일이 풀리는 사람들입니다.`;
+      ans += '<br>';
+      break;
+    }
+    case 'move': {
+      ans += '이사·계약은 문서운(인성)과 재물운(재성)이 함께 좋은 해가 순리입니다.';
+      ans += nIn === 0 ? ' 원국에 인성(문서)이 약하니 계약서는 남보다 두 번 더 확인하는 것이 안전합니다.' : '';
+      ans += '<br>';
+      break;
+    }
+    case 'health': {
+      const wk = C.sorted[4][0];
+      ans += `타고나기로는 <b>${ORGAN[wk]}</b> 쪽이 약한 편이니 이 부위를 가장 먼저 챙기세요. 실천법은 — ${ORGAN_CARE[wk]}.`;
+      if (nGwan >= 3) ans += ' 관성이 강해 스트레스가 몸(소화·두통)으로 오는 체질이니 긴장 관리가 곧 건강 관리입니다.';
+      ans += '<br>';
+      break;
+    }
+    case 'self': {
+      const il2 = ILGAN_DESC[C.dayStem], ilp2 = ILGAN_PLUS[C.dayStem];
+      ans += `당신의 본질은 <b>${il2.t}</b>입니다. ${il2.d.split('다. ')[0]}다. 타고난 장점은 ${ilp2.s}이고, 조심할 그림자는 ${ilp2.w}입니다. ${ILGAN_ADVICE[C.dayStem]}`;
+      ans += '<br>';
+      break;
+    }
+    default: {
+      // 주제를 못 읽어도 반드시 답한다 — 사주 전반 총평
+      const il2 = ILGAN_DESC[C.dayStem];
+      const ty = evalYear(C.nowYear, [], [], false);
+      ans += `질문을 사주 전반으로 풀어드리면 — 당신은 <b>${il2.t}</b>의 ${C.str.strong ? '신강' : '신약'} 사주입니다. ${il2.d.split('다. ')[0]}다. `;
+      ans += `올해 ${ty.y}년(${ty.gz})은 ${YEAR_SS_TEXT[ty.ssS]} `;
+      ans += `개운의 열쇠는 ${EL_KO[C.luckEl]} 기운(${LUCK[C.luckEl][0]}, ${LUCK[C.luckEl][1]} 방위)입니다.`;
+      ans += `<br><span style="font-size:0.84rem;color:var(--ink-muted)">더 구체적으로 물어보실수록 깊게 답해드립니다 — 예: "내년에 매장을 하나 더 내도 될까?", "직원 뽑기 좋은 시기는?", "나에게 여자란?"</span><br>`;
+    }
   }
-  // 연도별 평가
-  if (scanMode) {
-    const best = [...rows].sort((a, b) => b.score - a.score);
-    ans += `앞으로 6년 중 흐름이 좋은 해부터 꼽으면:<br>`;
-    best.slice(0, 3).forEach((r, i) => {
-      ans += `<div class="yline">${i + 1}. <b>${r.y}년 ${r.gz}(${r.hj})</b> ${verdict(r.score)} — ${r.why.join(', ')}</div>`;
-    });
-    const worst = best[best.length - 1];
-    if (worst.score <= 0) ans += `<div class="yline">피한다면: ${worst.y}년 ${r0(worst)} — ${worst.why.join(', ')}</div>`;
-    ans += `<div class="concl">👉 ${best[0].y}년(${best[0].gz}년)을 1순위로 추천합니다.</div>`;
-  } else {
-    for (const r of rows) ans += `<div class="yline"><b>${r.y}년 ${r.gz}(${r.hj})</b> [${r.ssS}·${r.ssB}] ${verdict(r.score)} — ${r.why.join(', ')}</div>`;
-    if (rows.length >= 2) {
-      const best = [...rows].sort((a, b) => b.score - a.score)[0];
-      const tie = rows.filter(r => r.score === best.score).length > 1;
-      ans += `<div class="concl">👉 ${tie ? '물어보신 해들의 흐름이 비슷합니다. 준비된 시점이 곧 적기입니다.' : `물어보신 해 중에서는 <b>${best.y}년(${best.gz}년)</b>이 가장 낫습니다.`}</div>`;
-    } else if (rows.length === 1) {
-      const r = rows[0];
-      if (r.score >= 1) ans += `<div class="concl">👉 ${r.y}년, 움직여도 좋은 흐름입니다. 다만 사주는 방향이지 보증이 아니니 실무 검토는 철저히.</div>`;
-      else {
-        const alt = Array.from({ length: 4 }, (_, i) => evalYear(r.y + 1 + i)).sort((a, b) => b.score - a.score)[0];
-        ans += `<div class="concl">👉 ${r.y}년은 서두를 흐름이 아닙니다. 굳이 고르자면 <b>${alt.y}년(${alt.gz}년)</b>이 더 낫습니다 — ${alt.why.join(', ')}.</div>`;
+
+  // 시기 평가 블록 (시기성 주제이거나, 시기를 물었을 때)
+  if (topic ? (topic.timing || wantsTiming) : wantsTiming) {
+    let fav = topic ? [...topic.fav] : [];
+    if (topic && topic.key === 'love') fav = [male ? '재성' : '관성'];
+    const badSS = topic ? topic.badSS : [];
+    const isBiz = !!topic && ['biz', 'invest', 'money'].includes(topic.key);
+    const scanMode = !askedYears.length;
+    const years = scanMode ? Array.from({ length: 6 }, (_, i) => C.nowYear + i) : askedYears;
+    const rows = years.map(y => evalYear(y, fav, badSS, isBiz));
+    if (scanMode) {
+      const best = [...rows].sort((a, b) => b.score - a.score);
+      ans += `앞으로 6년 중 흐름이 좋은 해부터 꼽으면:<br>`;
+      best.slice(0, 3).forEach((r, i) => {
+        ans += `<div class="yline">${i + 1}. <b>${r.y}년 ${r.gz}(${r.hj})</b> ${verdict(r.score)} — ${r.why.join(', ')}</div>`;
+      });
+      const worst = best[best.length - 1];
+      if (worst.score <= 0) ans += `<div class="yline">피한다면: ${worst.y}년 ${r0(worst)} — ${worst.why.join(', ')}</div>`;
+      ans += `<div class="concl">👉 ${best[0].y}년(${best[0].gz}년)을 1순위로 추천합니다.</div>`;
+    } else {
+      for (const r of rows) ans += `<div class="yline"><b>${r.y}년 ${r.gz}(${r.hj})</b> [${r.ssS}·${r.ssB}] ${verdict(r.score)} — ${r.why.join(', ')}</div>`;
+      if (rows.length >= 2) {
+        const best = [...rows].sort((a, b) => b.score - a.score)[0];
+        const tie = rows.filter(r => r.score === best.score).length > 1;
+        ans += `<div class="concl">👉 ${tie ? '물어보신 해들의 흐름이 비슷합니다. 준비된 시점이 곧 적기입니다.' : `물어보신 해 중에서는 <b>${best.y}년(${best.gz}년)</b>이 가장 낫습니다.`}</div>`;
+      } else if (rows.length === 1) {
+        const r = rows[0];
+        if (r.score >= 1) ans += `<div class="concl">👉 ${r.y}년, 움직여도 좋은 흐름입니다. 다만 사주는 방향이지 보증이 아니니 실무 검토는 철저히.</div>`;
+        else {
+          const alt = Array.from({ length: 4 }, (_, i) => evalYear(r.y + 1 + i, fav, badSS, isBiz)).sort((a, b) => b.score - a.score)[0];
+          ans += `<div class="concl">👉 ${r.y}년은 서두를 흐름이 아닙니다. 굳이 고르자면 <b>${alt.y}년(${alt.gz}년)</b>이 더 낫습니다 — ${alt.why.join(', ')}.</div>`;
+        }
       }
     }
   }
+
   // 현재 대운 맥락
   const curDu = C.du.list.find(d => C.nowYear >= d.year && C.nowYear < d.year + 10);
   if (curDu) {
