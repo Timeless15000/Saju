@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head><meta charset="UTF-8"><title>engine tests</title></head>
+<body>
+<pre id="out"></pre>
+<script src="engine.js"></script>
+<script>
+  // node용 test.js를 브라우저에서 그대로 돌리기 위한 얇은 어댑터
+  const __out = document.getElementById('out');
+  const __origLog = console.log.bind(console);
+  console.log = (...args) => { __out.textContent += args.join(' ') + '\n'; __origLog(...args); };
+  function require() {
+    return { STEMS, BRANCHES, HIDDEN_STEMS, computeSaju, ganjiName: typeof ganjiName !== 'undefined' ? ganjiName : null,
+      sibsin, SIBSIN_NAMES, branchMainStem, dayPillar, yearPillar, monthPillar, hourPillar,
+      sunLongitude, findSolarTerm, toJD, fromJD, kstToJD: typeof kstToJD !== 'undefined' ? kstToJD : null };
+  }
+  var process = { exit: code => { document.title = code ? 'TESTS-FAIL' : 'TESTS-PASS'; } };
+</script>
+<script src="test.js"></script>
+</body>
+</html>
