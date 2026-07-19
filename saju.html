@@ -386,7 +386,10 @@
   <!-- MBTI 테스트 (사주 조회 없이도 이용 가능) -->
   <div class="card" id="c-mbti">
     <h2>🧩 MBTI 성격유형 테스트</h2>
-    <p style="font-size:0.9rem;color:var(--ink-soft);margin-bottom:12px;">나의 성격유형을 알아보세요. 위에서 사주를 먼저 보셨다면 <b>일간(日干)과 MBTI를 결합한 해석</b>까지 함께 드립니다. 각 문항에서 더 가까운 쪽을 골라 주세요.</p>
+    <p style="font-size:0.9rem;color:var(--ink-soft);margin-bottom:12px;">나의 성격유형을 알아보세요. 위에서 사주를 먼저 보셨다면 <b>일간(日干)과 MBTI를 결합한 해석</b>과 <b>종합 프로필</b>까지 함께 드립니다.</p>
+    <button id="mbtiToggle" class="btn-sub" style="font-size:0.92rem;padding:11px 22px;">🧩 테스트 펼치기</button>
+    <div id="mbtiBody" style="display:none;margin-top:14px;">
+    <p style="font-size:0.88rem;color:var(--ink-soft);margin-bottom:10px;">각 문항에서 더 가까운 쪽을 골라 주세요.</p>
     <div class="form-grid" style="margin-bottom:4px;">
       <div class="field"><label>이름</label><input type="text" id="mbtiName" placeholder="이름" style="width:7.5em"></div>
       <div class="field">
@@ -402,6 +405,7 @@
       <button id="btnMbti" style="padding:12px 28px;border:none;border-radius:13px;background:var(--grad);color:#fff;font-family:inherit;font-size:0.95rem;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(13,92,60,.25);">결과 보기</button>
     </div>
     <div class="interp" id="mbtiResult" style="margin-top:14px;"></div>
+    </div><!-- /mbtiBody -->
   </div>
 
   <div class="card" id="c-feedback">
@@ -2640,10 +2644,15 @@ $('btnMbti').addEventListener('click', () => {
   $('mbtiResult').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 });
 
-// 이름 미리 채우기: 사주 입력의 이름 → MBTI 이름
-$('inName').addEventListener('input', () => { if (!$('mbtiName').value) $('mbtiName').value = $('inName').value; });
-if (mbtiLast) { $('mbtiName').value = mbtiLast.name; renderMbtiResult(); }
-else if ($('inName').value) $('mbtiName').value = $('inName').value;
+// 테스트 접기/펼치기 (기본은 접힘 — 원할 때만 펼쳐서 진행)
+$('mbtiToggle').addEventListener('click', () => {
+  const body = $('mbtiBody');
+  const open = body.style.display === 'none';
+  body.style.display = open ? 'block' : 'none';
+  $('mbtiToggle').textContent = open ? '🧩 테스트 접기' : '🧩 테스트 펼치기';
+});
+// 저장된 이전 결과가 있으면 결과 영역만 미리 그려둔다 (펼치면 보임)
+if (mbtiLast) renderMbtiResult();
 
 /* ============================================================
    건의사항 — mailto로 메일 앱을 열어 전달
