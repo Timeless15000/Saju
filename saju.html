@@ -62,6 +62,24 @@
     display: flex; align-items: center; gap: 9px; color: var(--ink);
   }
   .card h2::before { content: ''; width: 4px; height: 18px; border-radius: 3px; background: var(--grad); flex: none; }
+  /* ---- 오행 컬러 테마: 카드마다 목화토금수 색을 입혀 리듬감 있게 ---- */
+  .elc-wood  { --el-c: var(--wood);  --el-s: #ecf5ec; }
+  .elc-fire  { --el-c: var(--fire);  --el-s: #fdf0ef; }
+  .elc-earth { --el-c: var(--earth); --el-s: #faf3e4; }
+  .elc-metal { --el-c: var(--metal); --el-s: #f0f2f6; }
+  .elc-water { --el-c: var(--water); --el-s: #eaf2fc; }
+  .card[class*="elc-"] {
+    border-top: 3px solid var(--el-c);
+    background: linear-gradient(180deg, var(--el-s), #ffffff 110px);
+  }
+  .card[class*="elc-"] h2::before { background: var(--el-c); }
+  /* 오행 종합 카드: 5색 그라데이션 스트립 */
+  .card.elc-all { border-top: none; background: var(--card); }
+  .card.elc-all::before {
+    content: ''; display: block; height: 5px; border-radius: 5px; margin-bottom: 16px;
+    background: linear-gradient(90deg, var(--wood), var(--fire), var(--earth), var(--metal), var(--water));
+  }
+  .card.elc-all h2::before { background: linear-gradient(180deg, var(--wood), var(--fire), var(--earth), var(--metal), var(--water)); }
   /* ---- 입력 폼 ---- */
   .form-grid { display: flex; flex-wrap: wrap; gap: 14px 16px; align-items: flex-end; }
   .field label { display: block; font-size: 0.78rem; color: var(--ink-soft); margin-bottom: 5px; font-weight: 600; }
@@ -280,68 +298,68 @@
     <nav class="qnav">
       <a href="#c-me">프로필</a><a href="#c-today">오늘</a><a href="#c-wonguk">원국</a><a href="#c-ohaeng">오행</a><a href="#c-sibsin">십신</a><a href="#c-sinsal">신살</a><a href="#c-ilgan">성격</a><a href="#c-care">셀프케어</a><a href="#c-fortune">종합운세</a><a href="#c-daeun">대운·세운</a><a href="#c-sum">요약</a><a href="#c-consult">상담소</a><a href="#c-gunghap">궁합</a><a href="#c-mbti">MBTI</a>
     </nav>
-    <div class="card" id="c-me">
+    <div class="card elc-all" id="c-me">
       <h2>👤 나는 어떤 사람일까?</h2>
       <div class="interp" id="meBox"></div>
     </div>
 
-    <div class="card" id="c-today">
+    <div class="card elc-fire" id="c-today">
       <h2>📅 오늘의 운세</h2>
       <div class="interp" id="todayBox"></div>
     </div>
 
-    <div class="card" id="c-wonguk">
+    <div class="card elc-wood" id="c-wonguk">
       <h2>사주 원국 (四柱 原局)</h2>
       <div class="pillars" id="pillarBox"></div>
       <div class="summary-line" id="basicLine"></div>
     </div>
 
-    <div class="card" id="c-ohaeng">
+    <div class="card elc-all" id="c-ohaeng">
       <h2>오행 분포 (五行)</h2>
       <div id="elChart"></div>
       <div class="el-note" id="elNote"></div>
     </div>
 
-    <div class="card" id="c-sibsin">
+    <div class="card elc-metal" id="c-sibsin">
       <h2>십신 분석 (十神)</h2>
       <div class="ss-groups" id="ssGroups"></div>
       <div class="interp" id="ssNote"></div>
     </div>
 
-    <div class="card" id="c-sinsal">
+    <div class="card elc-water" id="c-sinsal">
       <h2>🔮 신살 (神煞) · 12운성</h2>
       <div class="interp" id="sinsalBox"></div>
     </div>
 
-    <div class="card" id="c-ilgan">
+    <div class="card elc-fire" id="c-ilgan">
       <h2>일간으로 보는 성격</h2>
       <div class="interp" id="ilganBox"></div>
     </div>
 
-    <div class="card" id="c-care">
+    <div class="card elc-wood" id="c-care">
       <h2>🧘 셀프케어 가이드 — 건강 · 스트레스 · 직장생활</h2>
       <div class="interp" id="careBox"></div>
     </div>
 
-    <div class="card" id="c-fortune">
+    <div class="card elc-earth" id="c-fortune">
       <h2>종합 운세 풀이</h2>
       <div class="interp" id="fortuneBox"></div>
       <div class="interp" id="aiFortune" style="display:none;margin-top:16px;border-top:1px dashed var(--line);padding-top:12px;"></div>
     </div>
 
-    <div class="card" id="c-daeun">
+    <div class="card elc-water" id="c-daeun">
       <h2>대운 (大運) — 10년 주기의 흐름</h2>
       <div class="daeun-info" id="daeunInfo"></div>
       <div class="daeun-list" id="daeunList"></div>
       <div class="seun-panel" id="seunBox"></div>
     </div>
 
-    <div class="card" id="c-sum">
+    <div class="card elc-metal" id="c-sum">
       <h2>📋 한눈에 보는 요약</h2>
       <table class="sum-table" id="sumBox"></table>
     </div>
 
-    <div class="card" id="c-consult">
+    <div class="card elc-earth" id="c-consult">
       <h2>🔮 사주 상담소</h2>
       <p style="font-size:0.9rem;color:var(--ink-soft);">궁금한 것을 자유롭게 물어보세요. 내 사주 원국과 대운·세운을 근거로 답해드립니다. <span id="consultAiBadge"></span></p>
       <div id="consultLog"></div>
@@ -351,7 +369,7 @@
       </div>
     </div>
 
-    <div class="card" id="c-gunghap">
+    <div class="card elc-fire" id="c-gunghap">
       <h2>💞 관계·궁합 보기 (선택)</h2>
       <p style="font-size:0.9rem;color:var(--ink-soft);margin-bottom:12px;">다른 사람의 생년월일시를 입력하면 나와 그 사람의 관계·궁합을 풀어드립니다. 연인·배우자뿐 아니라 가족·친구·동료 관계도 볼 수 있어요.</p>
       <div class="form-grid">
@@ -384,7 +402,7 @@
   </div>
 
   <!-- MBTI 테스트 (사주 조회 없이도 이용 가능) -->
-  <div class="card" id="c-mbti">
+  <div class="card elc-water" id="c-mbti">
     <h2>🧩 MBTI 성격유형 테스트</h2>
     <p style="font-size:0.9rem;color:var(--ink-soft);margin-bottom:12px;">나의 성격유형을 알아보세요. 위에서 사주를 먼저 보셨다면 <b>일간(日干)과 MBTI를 결합한 해석</b>과 <b>종합 프로필</b>까지 함께 드립니다.</p>
     <button id="mbtiToggle" class="btn-sub" style="font-size:0.92rem;padding:11px 22px;">🧩 테스트 펼치기</button>
