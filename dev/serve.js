@@ -5,7 +5,8 @@ const path = require('path');
 const ROOT = path.join(__dirname, '..');
 const PORT = 8931;
 http.createServer((req, res) => {
-  const file = path.join(ROOT, req.url === '/' ? 'saju.html' : decodeURIComponent(req.url));
+  const urlPath = req.url.split('?')[0]; // ?v= 캐시버스터 등 쿼리스트링 제거
+  const file = path.join(ROOT, urlPath === '/' ? 'saju.html' : decodeURIComponent(urlPath));
   fs.readFile(file, (err, data) => {
     if (err) { res.writeHead(404); res.end('not found'); return; }
     res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
