@@ -91,5 +91,41 @@ console.log('--- 오행 분포 합계 검증 ---');
 const total = Object.values(r1.dist).reduce((s, x) => s + x, 0);
 eq('오행 합계 = 8 (4주 x 천간1+지지1)', Math.abs(total - 8) < 1e-9, true);
 
+console.log('--- 공망 검증 (순중공망) ---');
+// 갑자순(갑자~계유) 공망 = 술해, 갑인순(무오 포함) 공망 = 자축
+eq('갑자일 공망', E.gongmang(0, 0).map(b => E.BRANCHES[b].k).join(''), '술해');
+eq('무오일 공망', E.gongmang(4, 6).map(b => E.BRANCHES[b].k).join(''), '자축');
+eq('경진일 공망', E.gongmang(6, 4).map(b => E.BRANCHES[b].k).join(''), '신유');
+
+console.log('--- 12운성 검증 ---');
+// 갑목: 해=장생, 인=건록, 묘=제왕 / 을목(음간 역행): 오=장생, 해=사
+eq('갑+해 = 장생', E.twelveStage(0, 11), '장생');
+eq('갑+인 = 건록', E.twelveStage(0, 2), '건록');
+eq('갑+묘 = 제왕', E.twelveStage(0, 3), '제왕');
+eq('을+오 = 장생', E.twelveStage(1, 6), '장생');
+eq('을+해 = 사', E.twelveStage(1, 11), '사');
+eq('경+사 = 장생', E.twelveStage(6, 5), '장생');
+eq('경+유 = 제왕', E.twelveStage(6, 9), '제왕');
+eq('병+인 = 장생', E.twelveStage(2, 2), '장생');
+
+console.log('--- 신살 검증 ---');
+// 구성: 년주 갑자, 월주 병인, 일주 갑진, 시주 을축
+// 일간 갑 → 천을귀인 축미: 시지 축 hit / 문창 사: 없음
+// 도화: 년지 자(신자진)→유, 일지 진(신자진)→유: 없음 / 역마: →인: 월지 인 hit
+// 화개: →진: 일지 진 hit / 양인 갑→묘: 없음 / 백호: 갑진 일주 hit
+// 공망(갑진일: 갑진순 공망 인묘): 월지 인 hit
+const sp = [{ stem: 0, branch: 0 }, { stem: 2, branch: 2 }, { stem: 0, branch: 4 }, { stem: 1, branch: 1 }];
+const sl = E.shinsalList(sp);
+const names = k => { const h = sl.hits.find(x => x.key === k); return h ? h.where.join(',') : '없음'; };
+eq('천을귀인(시지 丑)', names('cheoneul'), '시지 丑');
+eq('역마살(월지 寅)', names('yeokma'), '월지 寅');
+eq('화개살(일지 辰)', names('hwagae'), '일지 辰');
+eq('백호대살(일주 甲辰)', names('baekho'), '일주 甲辰');
+eq('공망(월지 寅)', names('gongmang'), '월지 寅');
+eq('갑진일 공망 = 인묘', sl.gongmangBranches.map(b => E.BRANCHES[b].k).join(''), '인묘');
+// 괴강: 경진 일주
+const sl2 = E.shinsalList([{ stem: 0, branch: 0 }, { stem: 2, branch: 2 }, { stem: 6, branch: 4 }, null]);
+eq('괴강살(경진 일주)', (sl2.hits.find(x => x.key === 'goegang') || { where: [] }).where.join(','), '일주 庚辰');
+
 console.log('\n결과: ' + pass + ' 통과, ' + fail + ' 실패');
 process.exit(fail ? 1 : 0);

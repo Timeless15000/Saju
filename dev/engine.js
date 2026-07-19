@@ -267,6 +267,86 @@ function ganjiName(stem, branch) {
   return STEMS[stem].k + BRANCHES[branch].k + '(' + STEMS[stem].h + BRANCHES[branch].h + ')';
 }
 
+/* ============================================================
+   신살(神煞) · 12운성 · 공망
+   ============================================================ */
+// 삼합 국(局) 기준: 각 지지가 속한 그룹의 도화·역마·화개 지지
+const SAMHAP_INFO = (() => {
+  const groups = [
+    { members: [8, 0, 4], dohwa: 9, yeokma: 2, hwagae: 4 },   // 신자진(水局) → 유·인·진
+    { members: [2, 6, 10], dohwa: 3, yeokma: 8, hwagae: 10 }, // 인오술(火局) → 묘·신·술
+    { members: [5, 9, 1], dohwa: 6, yeokma: 11, hwagae: 1 },  // 사유축(金局) → 오·해·축
+    { members: [11, 3, 7], dohwa: 0, yeokma: 5, hwagae: 7 },  // 해묘미(木局) → 자·사·미
+  ];
+  const byBranch = [];
+  for (const g of groups) for (const m of g.members) byBranch[m] = g;
+  return byBranch;
+})();
+// 천을귀인: 일간 → 귀인 지지
+const CHEONEUL = [[1, 7], [0, 8], [11, 9], [11, 9], [1, 7], [0, 8], [1, 7], [2, 6], [5, 3], [5, 3]];
+// 문창귀인: 일간 → 지지
+const MUNCHANG = [5, 6, 8, 9, 8, 9, 11, 0, 2, 3];
+// 양인: 양간 → 지지 (음간은 해당 없음 = -1)
+const YANGIN = [3, -1, 6, -1, 6, -1, 9, -1, 0, -1];
+// 백호대살 간지 (stem, branch)
+const BAEKHO = [[0, 4], [1, 7], [2, 10], [3, 1], [4, 4], [8, 10], [9, 1]];
+// 괴강 간지 (일주 기준이 정법, 타주도 참고 표시)
+const GOEGANG = [[6, 4], [6, 10], [8, 4], [8, 10], [4, 10]];
+// 공망: 일주 기준 순중공망 지지 2개
+function gongmang(dayStem, dayBranch) {
+  const xun = ((dayBranch - dayStem) % 12 + 12) % 12;
+  return [(xun + 10) % 12, (xun + 11) % 12];
+}
+// 12운성: 일간 vs 지지
+const STAGE_NAMES = ['장생', '목욕', '관대', '건록', '제왕', '쇠', '병', '사', '묘', '절', '태', '양'];
+const STAGE_START = [11, 6, 2, 9, 2, 9, 5, 0, 8, 3]; // 각 천간의 장생 지지
+function twelveStage(stem, branch) {
+  const start = STAGE_START[stem];
+  const idx = STEMS[stem].yang ? ((branch - start) % 12 + 12) % 12 : ((start - branch) % 12 + 12) % 12;
+  return STAGE_NAMES[idx];
+}
+// 원국 신살 목록: pillars = [yp, mp, dp, hp(null 가능)]
+function shinsalList(pillars) {
+  const [yp, mp, dp, hp] = pillars;
+  const POS = ['년지', '월지', '일지', '시지'];
+  const PILLAR_POS = ['년주', '월주', '일주', '시주'];
+  const hits = [];
+  const branchHits = (targets, skipIdx) => {
+    const out = [];
+    pillars.forEach((p, i) => {
+      if (!p || i === skipIdx) return;
+      if (targets.includes(p.branch)) out.push(POS[i] + ' ' + BRANCHES[p.branch].h);
+    });
+    return out;
+  };
+  const add = (key, name, where) => { if (where.length) hits.push({ key, name, where }); };
+
+  add('cheoneul', '천을귀인(天乙貴人)', branchHits(CHEONEUL[dp.stem], -1));
+  add('munchang', '문창귀인(文昌貴人)', branchHits([MUNCHANG[dp.stem]], -1));
+  // 도화·역마·화개: 년지 기준 + 일지 기준 (중복 제거)
+  for (const [key, name, prop] of [['dohwa', '도화살(桃花殺)', 'dohwa'], ['yeokma', '역마살(驛馬殺)', 'yeokma'], ['hwagae', '화개살(華蓋殺)', 'hwagae']]) {
+    const targets = [...new Set([SAMHAP_INFO[yp.branch][prop], SAMHAP_INFO[dp.branch][prop]])];
+    add(key, name, branchHits(targets, -1));
+  }
+  if (YANGIN[dp.stem] >= 0) add('yangin', '양인살(羊刃殺)', branchHits([YANGIN[dp.stem]], -1));
+  // 백호·괴강: 간지 단위
+  const gzHits = (table) => {
+    const out = [];
+    pillars.forEach((p, i) => {
+      if (!p) return;
+      if (table.some(([s, b]) => s === p.stem && b === p.branch))
+        out.push(PILLAR_POS[i] + ' ' + STEMS[p.stem].h + BRANCHES[p.branch].h);
+    });
+    return out;
+  };
+  add('baekho', '백호대살(白虎大殺)', gzHits(BAEKHO));
+  add('goegang', '괴강살(魁罡殺)', gzHits(GOEGANG));
+  // 공망: 일주 기준이므로 일지 자신은 제외
+  const gm = gongmang(dp.stem, dp.branch);
+  add('gongmang', '공망(空亡)', branchHits(gm, 2));
+  return { hits, gongmangBranches: gm };
+}
+
 if (typeof module !== 'undefined') {
-  module.exports = { STEMS, BRANCHES, HIDDEN_STEMS, computeSaju, ganjiName, sibsin, SIBSIN_NAMES, branchMainStem, dayPillar, yearPillar, monthPillar, hourPillar, sunLongitude, findSolarTerm, toJD, fromJD, kstToJD };
+  module.exports = { STEMS, BRANCHES, HIDDEN_STEMS, computeSaju, ganjiName, sibsin, SIBSIN_NAMES, branchMainStem, dayPillar, yearPillar, monthPillar, hourPillar, sunLongitude, findSolarTerm, toJD, fromJD, kstToJD, gongmang, twelveStage, shinsalList };
 }

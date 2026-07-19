@@ -214,6 +214,22 @@
   .btn-sub { padding: 8px 16px; border: 1px solid var(--line); background: #fafdfb; border-radius: 10px; cursor: pointer; font-family: inherit; font-size: 0.85rem; color: var(--ink-soft); transition: all .12s; }
   .btn-sub:hover { border-color: var(--accent); color: var(--accent); }
   .adminlink { color: var(--ink-muted); text-decoration: underline; cursor: pointer; }
+  /* ---- MBTI ---- */
+  .mbti-q { margin: 10px 0; padding: 12px 14px; border: 1px solid var(--line); border-radius: 12px; background: #fafdfb; }
+  .mbti-q .q { font-weight: 700; margin-bottom: 8px; font-size: 0.93rem; }
+  .mbti-q .opts { display: flex; flex-direction: column; gap: 6px; }
+  .mbti-q input { display: none; }
+  .mbti-q label { display: block; padding: 9px 13px; border: 1.5px solid var(--line); border-radius: 10px; cursor: pointer; font-size: 0.9rem; background: #fff; transition: all .12s; }
+  .mbti-q label:hover { border-color: var(--accent); }
+  .mbti-q input:checked + label { background: var(--grad); color: #fff; border-color: transparent; font-weight: 700; }
+  .mbti-type-badge { display: inline-block; font-size: 1.6rem; font-weight: 800; letter-spacing: 2px; background: var(--grad); color: #fff; border-radius: 14px; padding: 8px 22px; margin: 4px 0 8px; }
+  /* ---- 신살 ---- */
+  .ss-hit { margin: 9px 0; padding: 11px 14px; border: 1px solid var(--line); border-radius: 12px; background: #fafdfb; font-size: 0.92rem; }
+  .ss-hit b.nm { color: var(--accent-deep); }
+  .ss-where { display: inline-block; font-size: 0.78rem; background: var(--accent-soft); color: var(--accent-deep); border-radius: 8px; padding: 2px 8px; margin-left: 6px; }
+  .stage-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; margin-top: 8px; }
+  .stage-table th, .stage-table td { padding: 7px 10px; border-bottom: 1px dashed var(--line); text-align: center; }
+  .stage-table th { color: var(--ink-soft); white-space: nowrap; }
   footer { text-align: center; font-size: 0.78rem; color: var(--ink-muted); margin-top: 30px; line-height: 1.9; }
   #result { display: none; }
   @media (max-width: 560px) {
@@ -262,11 +278,16 @@
   <!-- 결과 -->
   <div id="result">
     <nav class="qnav">
-      <a href="#c-me">프로필</a><a href="#c-wonguk">원국</a><a href="#c-ohaeng">오행</a><a href="#c-sibsin">십신</a><a href="#c-ilgan">성격</a><a href="#c-care">셀프케어</a><a href="#c-fortune">종합운세</a><a href="#c-daeun">대운·세운</a><a href="#c-sum">요약</a><a href="#c-consult">상담소</a><a href="#c-gunghap">궁합</a>
+      <a href="#c-me">프로필</a><a href="#c-today">오늘</a><a href="#c-wonguk">원국</a><a href="#c-ohaeng">오행</a><a href="#c-sibsin">십신</a><a href="#c-sinsal">신살</a><a href="#c-ilgan">성격</a><a href="#c-care">셀프케어</a><a href="#c-fortune">종합운세</a><a href="#c-daeun">대운·세운</a><a href="#c-sum">요약</a><a href="#c-consult">상담소</a><a href="#c-gunghap">궁합</a><a href="#c-mbti">MBTI</a>
     </nav>
     <div class="card" id="c-me">
       <h2>👤 나는 어떤 사람일까?</h2>
       <div class="interp" id="meBox"></div>
+    </div>
+
+    <div class="card" id="c-today">
+      <h2>📅 오늘의 운세</h2>
+      <div class="interp" id="todayBox"></div>
     </div>
 
     <div class="card" id="c-wonguk">
@@ -285,6 +306,11 @@
       <h2>십신 분석 (十神)</h2>
       <div class="ss-groups" id="ssGroups"></div>
       <div class="interp" id="ssNote"></div>
+    </div>
+
+    <div class="card" id="c-sinsal">
+      <h2>🔮 신살 (神煞) · 12운성</h2>
+      <div class="interp" id="sinsalBox"></div>
     </div>
 
     <div class="card" id="c-ilgan">
@@ -357,6 +383,20 @@
     </div>
   </div>
 
+  <!-- MBTI 테스트 (사주 조회 없이도 이용 가능) -->
+  <div class="card" id="c-mbti">
+    <h2>🧩 MBTI 성격유형 테스트</h2>
+    <p style="font-size:0.9rem;color:var(--ink-soft);margin-bottom:12px;">12문항으로 알아보는 나의 성격유형. 위에서 사주를 먼저 보셨다면 <b>일간(日干)과 MBTI를 결합한 해석</b>까지 함께 드립니다. 각 문항에서 더 가까운 쪽을 골라 주세요.</p>
+    <div class="form-grid" style="margin-bottom:4px;">
+      <div class="field"><label>이름</label><input type="text" id="mbtiName" placeholder="이름" style="width:7.5em"></div>
+    </div>
+    <div id="mbtiQs"></div>
+    <div style="margin-top:14px;">
+      <button id="btnMbti" style="padding:12px 28px;border:none;border-radius:13px;background:var(--grad);color:#fff;font-family:inherit;font-size:0.95rem;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(13,92,60,.25);">결과 보기</button>
+    </div>
+    <div class="interp" id="mbtiResult" style="margin-top:14px;"></div>
+  </div>
+
   <div class="card" id="c-feedback">
     <h2>📮 건의사항</h2>
     <p style="font-size:0.88rem;color:var(--ink-soft);margin-bottom:10px;">앱에 바라는 점, 이상한 풀이, 추가하면 좋을 기능을 자유롭게 적어 주세요. "건의하기"를 누르면 메일로 전달됩니다.</p>
@@ -390,7 +430,7 @@
     <p style="font-size:0.82rem;color:var(--ink-muted);margin-bottom:10px;">이 브라우저(이 컴퓨터)에 자동 저장된 조회 기록입니다. 행을 클릭하면 그 사주를 다시 불러옵니다.</p>
     <div style="overflow-x:auto;">
       <table class="rec-table">
-        <thead><tr><th>이름</th><th>생년월일</th><th>시간</th><th>성별</th><th>출생지</th><th>조회일시</th><th></th></tr></thead>
+        <thead><tr><th>이름</th><th>생년월일</th><th>시간</th><th>성별</th><th>출생지</th><th>MBTI</th><th>조회일시</th><th></th></tr></thead>
         <tbody id="recBody"></tbody>
       </table>
     </div>
@@ -608,6 +648,72 @@ function strength(pillars, dayStem) {
   const ratio = support / total;
   return { ratio, strong: ratio >= 0.5 };
 }
+/* ---- 신살(神煞) · 12운성 · 공망 ---- */
+// 삼합 국(局) 기준: 각 지지가 속한 그룹의 도화·역마·화개 지지
+const SAMHAP_INFO = (() => {
+  const groups = [
+    { members: [8, 0, 4], dohwa: 9, yeokma: 2, hwagae: 4 },   // 신자진(水局) → 유·인·진
+    { members: [2, 6, 10], dohwa: 3, yeokma: 8, hwagae: 10 }, // 인오술(火局) → 묘·신·술
+    { members: [5, 9, 1], dohwa: 6, yeokma: 11, hwagae: 1 },  // 사유축(金局) → 오·해·축
+    { members: [11, 3, 7], dohwa: 0, yeokma: 5, hwagae: 7 },  // 해묘미(木局) → 자·사·미
+  ];
+  const byBranch = [];
+  for (const g of groups) for (const m of g.members) byBranch[m] = g;
+  return byBranch;
+})();
+const CHEONEUL = [[1, 7], [0, 8], [11, 9], [11, 9], [1, 7], [0, 8], [1, 7], [2, 6], [5, 3], [5, 3]];
+const MUNCHANG = [5, 6, 8, 9, 8, 9, 11, 0, 2, 3];
+const YANGIN = [3, -1, 6, -1, 6, -1, 9, -1, 0, -1];
+const BAEKHO = [[0, 4], [1, 7], [2, 10], [3, 1], [4, 4], [8, 10], [9, 1]];
+const GOEGANG = [[6, 4], [6, 10], [8, 4], [8, 10], [4, 10]];
+function gongmang(dayStem, dayBranch) {
+  const xun = ((dayBranch - dayStem) % 12 + 12) % 12;
+  return [(xun + 10) % 12, (xun + 11) % 12];
+}
+const STAGE_NAMES = ['장생', '목욕', '관대', '건록', '제왕', '쇠', '병', '사', '묘', '절', '태', '양'];
+const STAGE_START = [11, 6, 2, 9, 2, 9, 5, 0, 8, 3]; // 각 천간의 장생 지지
+function twelveStage(stem, branch) {
+  const start = STAGE_START[stem];
+  const idx = STEMS[stem].yang ? ((branch - start) % 12 + 12) % 12 : ((start - branch) % 12 + 12) % 12;
+  return STAGE_NAMES[idx];
+}
+function shinsalList(pillars) {
+  const [yp, mp, dp, hp] = pillars;
+  const POS = ['년지', '월지', '일지', '시지'];
+  const PILLAR_POS = ['년주', '월주', '일주', '시주'];
+  const hits = [];
+  const branchHits = (targets, skipIdx) => {
+    const out = [];
+    pillars.forEach((p, i) => {
+      if (!p || i === skipIdx) return;
+      if (targets.includes(p.branch)) out.push(POS[i] + ' ' + BRANCHES[p.branch].h);
+    });
+    return out;
+  };
+  const add = (key, name, where) => { if (where.length) hits.push({ key, name, where }); };
+  add('cheoneul', '천을귀인(天乙貴人)', branchHits(CHEONEUL[dp.stem], -1));
+  add('munchang', '문창귀인(文昌貴人)', branchHits([MUNCHANG[dp.stem]], -1));
+  for (const [key, name, prop] of [['dohwa', '도화살(桃花殺)', 'dohwa'], ['yeokma', '역마살(驛馬殺)', 'yeokma'], ['hwagae', '화개살(華蓋殺)', 'hwagae']]) {
+    const targets = [...new Set([SAMHAP_INFO[yp.branch][prop], SAMHAP_INFO[dp.branch][prop]])];
+    add(key, name, branchHits(targets, -1));
+  }
+  if (YANGIN[dp.stem] >= 0) add('yangin', '양인살(羊刃殺)', branchHits([YANGIN[dp.stem]], -1));
+  const gzHits = (table) => {
+    const out = [];
+    pillars.forEach((p, i) => {
+      if (!p) return;
+      if (table.some(([s, b]) => s === p.stem && b === p.branch))
+        out.push(PILLAR_POS[i] + ' ' + STEMS[p.stem].h + BRANCHES[p.branch].h);
+    });
+    return out;
+  };
+  add('baekho', '백호대살(白虎大殺)', gzHits(BAEKHO));
+  add('goegang', '괴강살(魁罡殺)', gzHits(GOEGANG));
+  const gm = gongmang(dp.stem, dp.branch);
+  add('gongmang', '공망(空亡)', branchHits(gm, 2));
+  return { hits, gongmangBranches: gm };
+}
+
 // tzOffsetMin: 출생지 표준시 UTC 오프셋(분, 기본 한국 +540) · lmtCorrMin: 진태양시 보정분 = round(경도×4 − tzOffsetMin)
 function computeSaju({ year, month, day, hour, minute, isMale, unknownTime, solarTimeCorrection, tzOffsetMin = 540, lmtCorrMin = -32 }) {
   let y = year, m = month, d = day, hh = hour, mm = minute;
@@ -749,6 +855,31 @@ const ORGAN_CARE = {
   '土': '식사 시간을 일정하게, 과식·야식 줄이기, 찬 음식보다 따뜻한 음식, 식후 10분 가벼운 산책으로 소화 돕기',
   '金': '실내 환기·가습 신경 쓰기, 유산소로 폐활량 키우기, 피부 보습과 자외선 차단, 흡연자라면 금연이 최우선',
   '水': '물 하루 1.5~2L 충분히 마시기, 짠 음식 줄이기, 하체·허리 보온, 무리한 다이어트와 수면 부족 피하기',
+};
+// 신살 해설
+const SHINSAL_DESC = {
+  cheoneul: '사주 최고의 길신입니다. 어려움에 처했을 때 귀인(도와주는 사람)이 나타나 위기를 넘기게 해주는 복이 있습니다. 대인관계에서 품위와 신망을 얻기 쉽습니다.',
+  munchang: '학문·글·언변의 재능을 뜻하는 길신입니다. 공부, 시험, 문서, 창작 분야에서 두각을 나타내기 쉽고 총명하다는 평을 듣습니다.',
+  dohwa: '사람을 끄는 매력과 인기를 뜻합니다. 이성에게 주목받고 예술적 감각이 좋습니다. 현대에는 연예·마케팅·서비스업에서 크게 빛나는 살로 봅니다. 다만 이성 문제로 구설이 생기지 않게만 조심하면 됩니다.',
+  yeokma: '이동·변화·활동의 기운입니다. 여행, 이사, 유학, 해외 인연이 많고 한곳에 머물기보다 움직일 때 운이 트입니다. 무역·운송·여행·해외 관련 일과 궁합이 좋습니다.',
+  hwagae: '예술·철학·정신세계의 별입니다. 혼자만의 세계가 깊고 창작·연구·종교·명상 분야에 재능이 있습니다. 고독을 즐길 줄 아는 힘이 곧 재능이 되는 살입니다.',
+  yangin: '칼날처럼 강한 추진력과 승부 근성을 뜻합니다. 큰일을 해내는 강한 무기지만, 과하면 다툼·부상으로 이어질 수 있으니 힘을 쏟을 건강한 출구(운동·목표)가 필요합니다.',
+  baekho: '강렬한 에너지를 품은 살입니다. 예로부터 사고·수술을 조심하라 했으나, 현대적으로는 그만큼 강한 집중력과 돌파력이 있다는 뜻이기도 합니다. 운전·안전에 평소 신경 쓰면 오히려 큰 성취의 동력이 됩니다.',
+  goegang: '우두머리의 별입니다. 총명하고 결단력이 뛰어나 극과 극을 오가는 큰 인물형이며, 자존심과 고집도 그만큼 강합니다. 남을 이기려 하기보다 이끄는 자리에 서면 크게 됩니다.',
+  gongmang: '해당 글자의 기운이 "비어 있는" 자리입니다. 그 영역에서 집착할수록 허무함이 따르니, 욕심을 내려놓고 정신적 가치로 접근하면 오히려 편안해집니다.',
+};
+// 일진(오늘의 운세) — 오늘 천간의 십신 기준 한 줄
+const DAY_SS_TEXT = {
+  '비견': '내 페이스대로 밀고 가기 좋은 날입니다. 동료·친구와의 협력은 잘 풀리지만 지출은 늘기 쉬우니 지갑 단속을 하세요.',
+  '겁재': '경쟁심이 발동하는 날입니다. 무리한 내기·충동구매·금전 거래는 피하고, 운동으로 승부욕을 풀면 좋습니다.',
+  '식신': '아이디어와 의욕이 샘솟는 날입니다. 새로운 시도, 맛있는 식사, 즐거운 활동에 좋은 하루입니다.',
+  '상관': '표현력이 살아나는 날입니다. 발표·창작에는 좋지만 말이 앞서기 쉬우니 윗사람 앞에서는 한 템포 쉬고 말하세요.',
+  '편재': '돈이 활발히 도는 날입니다. 사업·영업·투자 감각이 살아나지만 한탕 욕심은 금물입니다.',
+  '정재': '꼼꼼하게 실속을 챙기기 좋은 날입니다. 계획한 지출, 저축, 꼼꼼한 업무 처리가 잘 맞는 하루입니다.',
+  '편관': '압박과 긴장이 느껴질 수 있는 날입니다. 갑작스러운 일이 생겨도 정면 돌파보다 우선순위 정리가 먼저입니다.',
+  '정관': '책임감 있게 처신하면 인정받는 날입니다. 공적인 일, 계약, 면접, 윗사람과의 만남에 좋습니다.',
+  '편인': '직관이 예리해지는 날입니다. 공부·연구·기획에 좋지만 생각이 많아져 실행이 늦어질 수 있으니 마감을 정해두세요.',
+  '정인': '배움과 문서에 복이 있는 날입니다. 공부, 결재, 서류, 어른의 조언이 도움이 되는 차분한 하루입니다.',
 };
 // 세운(해별 운세) — 그 해 천간의 십신 기준
 const YEAR_SS_TEXT = {
@@ -1373,6 +1504,57 @@ function render(r, input) {
   ];
   $('sumBox').innerHTML = sumRows.map(([k, v]) => `<tr><th>${k}</th><td>${v}</td></tr>`).join('');
 
+  // ---- 신살 · 12운성 ----
+  const sl = shinsalList([yp, mp, dp, hp]);
+  const gmB = sl.gongmangBranches;
+  const brName = b => `${BRANCHES[b].h}(${BRANCHES[b].k})`;
+  let sinsalHtml = '<p style="font-size:0.85rem;color:var(--ink-soft);">신살(神煞)은 원국의 글자 조합에서 나오는 특수한 기운입니다. 내 사주에서 발견된 신살만 보여드립니다.</p>';
+  sinsalHtml += sl.hits.length
+    ? sl.hits.map(h => `<div class="ss-hit"><b class="nm">${h.name}</b>${h.where.map(w => `<span class="ss-where">${w}</span>`).join('')}<br>${SHINSAL_DESC[h.key]}</div>`).join('')
+    : '<p>원국에 뚜렷하게 잡히는 신살이 없습니다. 신살이 없다는 것은 나쁜 것이 아니라, 특별한 변수 없이 원국 본연의 힘대로 살아간다는 뜻입니다.</p>';
+  sinsalHtml += `<p style="font-size:0.85rem;color:var(--ink-soft);margin-top:10px;">※ 일주(${STEMS[dp.stem].h}${BRANCHES[dp.branch].h}) 기준 공망 지지는 <b>${gmB.map(brName).join(' · ')}</b>입니다. 원국에 없더라도 해당 글자의 해가 오면 공망운으로 봅니다.</p>`;
+  const stageCols = cols.filter(c => c.p);
+  sinsalHtml += `<h3 style="margin-top:16px;">12운성 — 일간 ${STEMS[dayStem].h}(${STEMS[dayStem].k}) 기준</h3>
+    <table class="stage-table"><tr>${stageCols.map(c => `<th>${c.name}</th>`).join('')}</tr>
+    <tr>${stageCols.map(c => `<td><span class="txt-${BRANCHES[c.p.branch].e}">${BRANCHES[c.p.branch].h}</span></td>`).join('')}</tr>
+    <tr>${stageCols.map(c => `<td><b>${twelveStage(dayStem, c.p.branch)}</b></td>`).join('')}</tr></table>
+    <p style="font-size:0.8rem;color:var(--ink-muted);margin-top:8px;">12운성은 일간이 각 지지에서 얼마나 힘을 받는지를 인생 주기(장생→제왕→묘·절)에 빗댄 것입니다. 건록·제왕은 왕성한 자리, 묘·절·태는 힘을 안으로 갈무리하는 자리입니다.</p>`;
+  $('sinsalBox').innerHTML = sinsalHtml;
+
+  // ---- 오늘의 운세 (일진) ----
+  const tnow = new Date();
+  const tdp = dayPillar(tnow.getFullYear(), tnow.getMonth() + 1, tnow.getDate());
+  const tSS = SIBSIN_NAMES[sibsin(dayStem, tdp.stem)];
+  const tSSb = SIBSIN_NAMES[sibsin(dayStem, branchMainStem(tdp.branch))];
+  const tEls = [STEMS[tdp.stem].e, BRANCHES[tdp.branch].e];
+  let tScore = 3;
+  const tGood = [], tBad = [];
+  if (tEls.includes(luckEl) || (luckEl2 && tEls.includes(luckEl2))) {
+    const el = tEls.includes(luckEl) ? luckEl : luckEl2;
+    tScore++; tGood.push(`나에게 필요한 <b class="txt-${el}">${el}(${EL_KO[el]})</b> 기운이 들어오는 날입니다.`);
+  }
+  if (STEMS[tdp.stem].e === sorted[0][0] && BRANCHES[tdp.branch].e === sorted[0][0]) {
+    tScore--; tBad.push(`이미 강한 ${EL_KO[sorted[0][0]]}(${sorted[0][0]}) 기운이 겹쳐 무리하면 지치기 쉽습니다.`);
+  }
+  if (pairIn(CHUNG, tdp.branch, dp.branch)) {
+    tScore--; tBad.push(`오늘 일진(${BRANCHES[tdp.branch].h})이 내 일지(${BRANCHES[dp.branch].h})와 충(沖) — 계획이 어긋나거나 마음이 흔들릴 수 있으니 큰 결정은 하루 미루는 게 좋습니다.`);
+  } else if (pairIn(YUKHAP, tdp.branch, dp.branch) || inSamhap(tdp.branch, dp.branch)) {
+    tScore++; tGood.push(`오늘 일진(${BRANCHES[tdp.branch].h})이 내 일지(${BRANCHES[dp.branch].h})와 합(合) — 사람과의 인연·협력이 잘 붙는 날입니다.`);
+  }
+  tScore = Math.max(1, Math.min(5, tScore));
+  const week = ['일', '월', '화', '수', '목', '금', '토'][tnow.getDay()];
+  $('todayBox').innerHTML = `
+    <p style="background:var(--accent-soft);border-radius:12px;padding:12px 15px;">
+      <b>${tnow.getFullYear()}년 ${tnow.getMonth() + 1}월 ${tnow.getDate()}일 (${week})</b> —
+      <b>${STEMS[tdp.stem].k}${BRANCHES[tdp.branch].k}(${STEMS[tdp.stem].h}${BRANCHES[tdp.branch].h})</b>일
+      <span class="sibsin-tag">${tSS}</span><span class="sibsin-tag">${tSSb}</span></p>
+    <p style="font-size:1.05rem;">오늘의 기운 <b style="color:var(--accent-deep);letter-spacing:2px;">${'★'.repeat(tScore)}${'☆'.repeat(5 - tScore)}</b></p>
+    <p>${DAY_SS_TEXT[tSS]}</p>
+    ${tGood.map(t => `<p>🍀 ${t}</p>`).join('')}
+    ${tBad.map(t => `<p>⚠️ ${t}</p>`).join('')}
+    <p style="font-size:0.88rem;">오늘의 개운 포인트 — 색상: <b>${LUCK[luckEl][0]}</b> · 방위: <b>${LUCK[luckEl][1]}</b> · 숫자: <b>${LUCK[luckEl][2]}</b></p>
+    <p style="font-size:0.78rem;color:var(--ink-muted);">※ 일진(日辰)은 매일 자정에 바뀝니다. 내일 다시 조회하면 새 운세를 볼 수 있어요.</p>`;
+
   // 상담 엔진용 컨텍스트 저장
   lastCtx = { input, r, dayStem, luckEl, luckEl2, sorted, dist, avg, groups, str, du, yp, nowYear, ssCount, palaceSS };
 
@@ -1380,6 +1562,7 @@ function render(r, input) {
   chatHistory = [];
   renderAiBadge();
   renderAiFortune();
+  renderMbtiResult(); // 일간 × MBTI 결합 해석 갱신
 
   $('result').style.display = 'block';
   $('result').scrollIntoView({ behavior: 'smooth' });
@@ -1946,6 +2129,12 @@ function saveRecord(input) {
       sex: input.isMale ? '남' : '여', pl: input.place || '서울',
       ts: new Date().toISOString().slice(0, 16).replace('T', ' '),
     };
+    // 같은 이름으로 MBTI 결과가 있으면 이어받기
+    if (rec.name) {
+      for (let i = recs.length - 1; i >= 0; i--) {
+        if (recs[i].name === rec.name && recs[i].mbti) { rec.mbti = recs[i].mbti; break; }
+      }
+    }
     const last = recs[recs.length - 1];
     if (last && last.name === rec.name && last.y === rec.y && last.m === rec.m && last.d === rec.d
       && last.hh === rec.hh && last.mm === rec.mm && last.sex === rec.sex && last.pl === rec.pl) return;
@@ -1959,11 +2148,11 @@ function renderRecords() {
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   $('recBody').innerHTML = recs.length
     ? recs.map((r, i) => ({ r, i })).reverse().map(({ r, i }) =>
-      `<tr class="click" data-i="${i}" title="클릭하면 이 사주를 다시 불러옵니다"><td>${esc(r.name) || '-'}</td>
-       <td>${r.y}-${String(r.m).padStart(2, '0')}-${String(r.d).padStart(2, '0')}</td>
-       <td>${r.hh === null ? '모름' : String(r.hh).padStart(2, '0') + ':' + String(r.mm).padStart(2, '0')}</td>
-       <td>${r.sex}</td><td>${esc(r.pl || '서울')}</td><td>${r.ts}</td><td class="rec-x" data-x="${i}" title="삭제">✕</td></tr>`).join('')
-    : '<tr><td colspan="7" style="color:var(--ink-muted)">아직 기록이 없습니다.</td></tr>';
+      `<tr class="click" data-i="${i}" title="${r.y ? '클릭하면 이 사주를 다시 불러옵니다' : 'MBTI 단독 기록'}"><td>${esc(r.name) || '-'}</td>
+       <td>${r.y ? `${r.y}-${String(r.m).padStart(2, '0')}-${String(r.d).padStart(2, '0')}` : '-'}</td>
+       <td>${r.y === null ? '-' : r.hh === null ? '모름' : String(r.hh).padStart(2, '0') + ':' + String(r.mm).padStart(2, '0')}</td>
+       <td>${r.sex}</td><td>${esc(r.pl || '서울')}</td><td>${r.mbti || '-'}</td><td>${r.ts}</td><td class="rec-x" data-x="${i}" title="삭제">✕</td></tr>`).join('')
+    : '<tr><td colspan="8" style="color:var(--ink-muted)">아직 기록이 없습니다.</td></tr>';
 }
 $('recToggle').addEventListener('click', () => {
   if (!devGate()) return;
@@ -1982,6 +2171,11 @@ $('recBody').addEventListener('click', e => {
   if (!tr) return;
   const r = getRecs()[+tr.dataset.i];
   if (!r) return;
+  if (r.y === null) { // MBTI 단독 기록 — 이름만 채우고 MBTI 카드로 이동
+    $('inName').value = r.name; $('mbtiName').value = r.name;
+    $('c-mbti').scrollIntoView({ behavior: 'smooth' });
+    return;
+  }
   $('inName').value = r.name; $('inY').value = r.y; $('inM').value = r.m; $('inD').value = r.d;
   $('inPlace').value = r.pl || '서울';
   const noT = r.hh === null;
@@ -1992,8 +2186,8 @@ $('recBody').addEventListener('click', e => {
 });
 $('recCsv').addEventListener('click', () => {
   const recs = getRecs();
-  const rows = [['이름', '생년', '월', '일', '시', '분', '성별', '출생지', '조회일시'],
-    ...recs.map(r => [r.name, r.y, r.m, r.d, r.hh === null ? '' : r.hh, r.mm === null ? '' : r.mm, r.sex, r.pl || '서울', r.ts])];
+  const rows = [['이름', '생년', '월', '일', '시', '분', '성별', '출생지', 'MBTI', '조회일시'],
+    ...recs.map(r => [r.name, r.y === null ? '' : r.y, r.m === null ? '' : r.m, r.d === null ? '' : r.d, r.hh === null ? '' : r.hh, r.mm === null ? '' : r.mm, r.sex, r.pl || '서울', r.mbti || '', r.ts])];
   const csv = '﻿' + rows.map(row => row.map(v => '"' + String(v).replace(/"/g, '""') + '"').join(',')).join('\n');
   const a = document.createElement('a');
   a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
@@ -2161,6 +2355,161 @@ ${ghChartText(o.r, o.input, o.name)}
     btn.disabled = false; btn.textContent = '🤖 다시 시도';
   }
 }
+
+/* ============================================================
+   MBTI 성격유형 테스트 (+ 일간 결합 해석)
+   ============================================================ */
+const MBTI_AXES = [['E', 'I'], ['S', 'N'], ['T', 'F'], ['J', 'P']];
+const MBTI_QS = [
+  { ax: 0, q: '주말에 에너지를 충전하는 나만의 방법은?', o1: '사람들을 만나 어울리며 충전한다', o2: '집에서 혼자 조용히 쉬며 충전한다' },
+  { ax: 0, q: '처음 보는 사람이 많은 모임에서 나는?', o1: '먼저 말을 걸며 금방 어울린다', o2: '아는 사람 곁에서 분위기를 살핀다' },
+  { ax: 0, q: '고민이 생기면 나는?', o1: '사람들과 이야기하면서 정리된다', o2: '혼자 생각할 시간이 필요하다' },
+  { ax: 1, q: '새로운 것을 배울 때 나는?', o1: '검증된 방법과 실제 사례가 좋다', o2: '새로운 아이디어와 가능성에 끌린다' },
+  { ax: 1, q: '대화할 때 나는?', o1: '현실적이고 구체적인 이야기를 주로 한다', o2: '상상, 미래, "만약에" 같은 이야기를 좋아한다' },
+  { ax: 1, q: '일을 시작할 때 나는?', o1: '눈앞의 현실과 디테일부터 챙긴다', o2: '큰 그림과 방향부터 그린다' },
+  { ax: 2, q: '친구가 고민을 털어놓으면 나는?', o1: '해결책부터 같이 찾아준다', o2: '마음부터 먼저 공감해준다' },
+  { ax: 2, q: '결정을 내릴 때 더 중요한 것은?', o1: '논리적으로 맞는가 (사실·원칙)', o2: '사람들 마음이 상하지 않는가 (관계·조화)' },
+  { ax: 2, q: '비판을 들으면 나는?', o1: '맞는 말인지 내용부터 따져본다', o2: '말투와 기분이 먼저 신경 쓰인다' },
+  { ax: 3, q: '여행을 갈 때 나는?', o1: '일정을 미리 짜둬야 마음이 편하다', o2: '즉흥적으로 움직이는 게 더 재밌다' },
+  { ax: 3, q: '일을 처리하는 스타일은?', o1: '마감 전에 미리 끝내놓는 편이다', o2: '마감이 닥쳐야 집중이 되는 편이다' },
+  { ax: 3, q: '계획이 갑자기 바뀌면 나는?', o1: '불편하다 — 원래 계획대로 하고 싶다', o2: '오히려 새로운 재미라고 느낀다' },
+];
+const MBTI_TYPES = {
+  ISTJ: { t: '원칙을 지키는 관리자', d: '책임감과 성실함의 대명사입니다. 맡은 일은 반드시 해내고, 약속과 원칙을 소중히 여겨 주변의 깊은 신뢰를 받습니다. 다만 변화 앞에서 유연함을 조금만 더하면 완벽합니다.' },
+  ISFJ: { t: '따뜻한 수호자', d: '조용히 주변을 챙기는 세심한 배려의 소유자입니다. 헌신적이고 기억력이 좋아 사람들의 사소한 것까지 챙겨줍니다. 자신을 위한 시간도 똑같이 소중히 여기는 연습이 필요합니다.' },
+  INFJ: { t: '통찰의 조언자', d: '사람과 세상을 꿰뚫어 보는 깊은 통찰력을 지녔습니다. 신념이 뚜렷하고 의미 있는 일에 헌신하며, 소수와 깊은 관계를 맺습니다. 이상이 높은 만큼 스스로에게 관대해질 필요가 있습니다.' },
+  INTJ: { t: '큰 그림을 그리는 전략가', d: '독립적이고 분석적인 완벽주의 전략가입니다. 장기적인 비전을 세우고 묵묵히 실행하는 힘이 탁월합니다. 감정 표현을 조금만 늘리면 사람의 마음까지 얻습니다.' },
+  ISTP: { t: '만능 해결사', d: '위기 상황에서 가장 침착한 실용주의자입니다. 손재주와 도구 감각이 뛰어나고, 효율을 중시하며 군더더기를 싫어합니다. 감정 공유에 서툰 것이 유일한 약점입니다.' },
+  ISFP: { t: '온화한 감성 예술가', d: '겸손하고 온화하지만 자기만의 미적 세계가 뚜렷합니다. 현재의 행복을 소중히 여기고 다툼을 싫어합니다. 하고 싶은 말은 조금 더 표현해도 괜찮습니다.' },
+  INFP: { t: '이상을 품은 몽상가', d: '깊은 내면 세계와 확고한 가치관을 지닌 낭만주의자입니다. 공감 능력이 뛰어나고 창작에 재능이 있습니다. 이상과 현실의 다리를 놓는 작은 실행이 과제입니다.' },
+  INTP: { t: '논리적 탐구자', d: '지적 호기심이 끝없는 아이디어 뱅크입니다. 원리를 파고들어 본질을 찾아내는 데 탁월하며 독창적입니다. 생각을 마무리해 세상에 내놓는 힘을 기르면 큰일을 해냅니다.' },
+  ESTP: { t: '행동파 모험가', d: '지금 이 순간을 사는 에너지 넘치는 현실주의자입니다. 순발력과 배짱이 좋아 위기에 강하고 어디서나 분위기를 주도합니다. 장기 계획에 조금만 신경 쓰면 무적입니다.' },
+  ESFP: { t: '무대 위의 낙천가', d: '타고난 흥과 매력으로 주변을 즐겁게 만드는 분위기 메이커입니다. 사교적이고 현실 감각이 좋습니다. 즐거움과 책임의 균형만 잡으면 인생이 축제가 됩니다.' },
+  ENFP: { t: '열정의 아이디어뱅크', d: '호기심과 열정이 넘치는 자유로운 영혼입니다. 사람의 가능성을 알아보고 영감을 주는 데 탁월합니다. 시작한 일의 마무리 습관이 붙으면 날개를 답니다.' },
+  ENTP: { t: '토론을 즐기는 발명가', d: '기발한 발상과 언변으로 새로운 판을 짜는 혁신가입니다. 고정관념에 도전하는 것을 즐기고 두뇌 회전이 빠릅니다. 꾸준함이라는 연료만 채우면 못 할 것이 없습니다.' },
+  ESTJ: { t: '추진력의 현장 지휘관', d: '체계와 효율로 조직을 이끄는 타고난 관리자입니다. 결단력 있고 현실적이며 책임을 피하지 않습니다. 다른 방식도 정답일 수 있다는 여유가 더해지면 완성형입니다.' },
+  ESFJ: { t: '사교적인 조력자', d: '사람들을 잘 챙기고 조화를 만드는 관계의 달인입니다. 협력을 이끌어내는 능력이 뛰어나고 모임의 구심점이 됩니다. 모두를 만족시키려는 부담은 내려놓아도 됩니다.' },
+  ENFJ: { t: '사람을 이끄는 멘토', d: '타인의 성장을 돕는 데서 보람을 찾는 카리스마 있는 리더입니다. 공감과 설득의 힘으로 사람들을 움직입니다. 자신을 돌보는 일도 리더의 책무임을 잊지 마세요.' },
+  ENTJ: { t: '타고난 지휘관', d: '목표를 향해 조직과 자원을 움직이는 천생 리더입니다. 결단력, 자신감, 전략적 사고를 모두 갖췄습니다. 속도를 늦추고 사람들의 마음을 살피면 더 큰 판을 이끕니다.' },
+};
+// 일간 오행 × MBTI 기질(NF/NT/SJ/SP) 헤드라인
+const EL_MBTI_HEAD = {
+  '木': { NF: '숲을 키우는 이상주의자', NT: '설계도를 그리는 개척자', SJ: '뿌리 깊은 신뢰의 기둥', SP: '바람 따라 뻗는 자유로운 가지' },
+  '火': { NF: '세상을 데우는 태양', NT: '번뜩이는 불꽃 전략가', SJ: '꺼지지 않는 성실한 등불', SP: '무대를 밝히는 불꽃' },
+  '土': { NF: '모두를 품는 너른 들판', NT: '판을 읽는 묵직한 산', SJ: '흔들림 없는 반석', SP: '길을 여는 너른 땅' },
+  '金': { NF: '따뜻한 칼날 — 원칙 있는 공감가', NT: '정밀하게 벼려진 검', SJ: '기준을 지키는 저울', SP: '순간을 가르는 명검' },
+  '水': { NF: '마음을 적시는 단비', NT: '깊이를 아는 바다', SJ: '한결같이 흐르는 강', SP: '자유롭게 흐르는 물길' },
+};
+let mbtiLast = null;
+try { mbtiLast = JSON.parse(localStorage.getItem('sajuMbti') || 'null'); } catch (e) { }
+
+$('mbtiQs').innerHTML = MBTI_QS.map((it, i) => `<div class="mbti-q"><div class="q">${i + 1}. ${it.q}</div><div class="opts">
+  <input type="radio" name="mq${i}" id="mq${i}a" value="0"><label for="mq${i}a">${it.o1}</label>
+  <input type="radio" name="mq${i}" id="mq${i}b" value="1"><label for="mq${i}b">${it.o2}</label>
+</div></div>`).join('');
+
+function mbtiSajuCombo(type) {
+  const C = lastCtx;
+  if (!C) return '';
+  const stem = STEMS[C.dayStem];
+  const temper = (type.includes('N') ? 'N' : 'S') + (type.includes('N') ? (type.includes('F') ? 'F' : 'T') : (type.includes('J') ? 'J' : 'P'));
+  const head = EL_MBTI_HEAD[stem.e][temper];
+  const g = n => { const x = C.groups.find(x => x.name === n); return x ? x.n : 0; };
+  const out = [];
+  // E/I ↔ 신강/신약
+  if (type[0] === 'E') out.push(C.str.strong
+    ? '사주도 신강(身強), MBTI도 외향(E) — 안팎 모두 에너지가 밖으로 향하는 확실한 행동파입니다. 추진력이 최대 무기이니 방향 설정만 신중하면 됩니다.'
+    : 'MBTI는 외향(E)이지만 사주 기질은 섬세한 신약(身弱) — 밖에서는 활발해도 혼자 재충전하는 시간이 꼭 필요한 타입입니다. 일정에 "혼자만의 시간"을 의식적으로 넣어 주세요.');
+  else out.push(C.str.strong
+    ? 'MBTI는 내향(I)이지만 사주는 신강(身強) — 조용해 보여도 속에는 뚜렷한 주관과 뚝심이 있는 외유내강형입니다. 결정적인 순간에 놀라운 결단력이 나옵니다.'
+    : '사주도 신약(身弱), MBTI도 내향(I) — 깊이 있는 관계와 안정된 환경에서 실력이 배로 나오는 타입입니다. 넓게보다 좁고 깊게 가는 것이 답입니다.');
+  // N/S ↔ 식상·인성(아이디어) vs 재성·관성(현실)
+  const idea = g('식상') + g('인성'), real = g('재성') + g('관성');
+  if (type.includes('N')) out.push(idea >= real
+    ? `사주에서도 아이디어·탐구의 별(식상·인성 ${idea}개)이 발달해 직관(N)과 같은 방향을 가리킵니다. 상상하고 궁리하는 것이 그냥 취향이 아니라 타고난 재능이라는 뜻입니다.`
+    : `MBTI는 직관(N)인데 사주는 현실의 별(재성·관성 ${real}개)이 발달했습니다 — 아이디어를 실제 성과로 바꿀 줄 아는 드문 조합입니다. 공상에 그치지 않는 몽상가입니다.`);
+  else out.push(real >= idea
+    ? `사주에서도 현실의 별(재성·관성 ${real}개)이 발달해 감각(S)과 같은 방향입니다. 발이 땅에 붙어 있는 사람 — 허황된 것에 흔들리지 않는 것이 큰 복입니다.`
+    : `MBTI는 현실적인 감각(S)인데 사주에는 아이디어의 별(식상·인성 ${idea}개)이 많습니다. 평소엔 실속파지만 내면에 창의적 재능이 잠들어 있으니 취미로라도 꺼내 쓰면 좋습니다.`);
+  // T/F ↔ 일간 오행
+  if (type.includes('F')) out.push(['木', '火'].includes(stem.e)
+    ? `${stem.k}${EL_KO[stem.e]} 일간의 따뜻한 기운과 감정형(F)이 만나 공감 능력이 배가됩니다. 사람의 마음을 얻는 것이 당신의 가장 큰 자산입니다.`
+    : ['金', '水'].includes(stem.e)
+      ? `일간은 차분한 ${EL_KO[stem.e]}(${stem.e}) 기운인데 MBTI는 감정형(F) — 겉은 이성적으로 보여도 속정이 깊은 타입입니다. 가까워질수록 진가가 드러납니다.`
+      : `든든한 토(土) 일간과 감정형(F)이 만나 "믿고 기대게 되는 사람"이 됩니다. 다만 남 걱정에 내 몫을 미루지는 마세요.`);
+  else out.push(['金', '水'].includes(stem.e)
+    ? `${stem.k}${EL_KO[stem.e]} 일간의 냉철한 기운과 사고형(T)이 일치합니다. 판단이 빠르고 정확한 것이 강점이니, 표현만 한 스푼 부드럽게 하면 완벽합니다.`
+    : ['木', '火'].includes(stem.e)
+      ? `일간은 따뜻한 ${EL_KO[stem.e]}(${stem.e}) 기운인데 MBTI는 사고형(T) — 머리는 차갑고 가슴은 뜨거운 조합입니다. 논리 뒤에 숨은 열정이 당신의 반전 매력입니다.`
+      : `묵직한 토(土) 일간과 사고형(T)이 만나 흔들림 없는 판단력을 만듭니다. 신중함이 지나쳐 기회를 놓치지 않게 결정 시한을 정해두면 좋습니다.`);
+  // J/P ↔ 관성 vs 식상
+  const gwan = g('관성'), sik = g('식상');
+  if (type.includes('J')) out.push(gwan >= sik
+    ? `사주의 절제·책임의 별(관성 ${gwan}개)과 계획형(J)이 일치합니다. 체계와 꾸준함으로 신뢰를 쌓는 정공법이 당신의 길입니다.`
+    : `MBTI는 계획형(J)인데 사주에는 자유·표현의 별(식상 ${sik}개)이 강합니다. 계획 속에 "여백"을 일부러 남겨두면 창의력과 안정감을 둘 다 잡을 수 있습니다.`);
+  else out.push(sik >= gwan
+    ? `사주의 자유·표현의 별(식상 ${sik}개)과 즉흥형(P)이 일치합니다. 틀에 갇히지 않을 때 재능이 폭발하니, 규칙이 빡빡한 환경보다 재량이 큰 환경을 고르세요.`
+    : `MBTI는 즉흥형(P)인데 사주에는 절제의 별(관성 ${gwan}개)이 있습니다. 자유롭게 살다가도 결정적인 순간에는 스스로를 다잡는 힘이 있는, 균형 잡힌 조합입니다.`);
+  return `<h3 style="margin-top:16px;">🔗 ${stem.k}${EL_KO[stem.e]}(${stem.h}${stem.e}) 일간 × ${type} — "${head}"</h3>
+    <p style="font-size:0.85rem;color:var(--ink-soft);">현재 조회된 사주(${C.input.year}-${String(C.input.month).padStart(2, '0')}-${String(C.input.day).padStart(2, '0')}생)의 일간과 결합한 해석입니다.</p>
+    ${out.map(t => `<p>${t}</p>`).join('')}`;
+}
+
+function renderMbtiResult() {
+  const box = $('mbtiResult');
+  if (!mbtiLast) { box.innerHTML = ''; return; }
+  const { name, type, counts } = mbtiLast;
+  const info = MBTI_TYPES[type];
+  const axisLine = counts ? MBTI_AXES.map((ax, i) =>
+    `<span class="pill">${ax[0]} ${counts[i]} : ${3 - counts[i]} ${ax[1]}</span>`).join(' ') : '';
+  box.innerHTML = `
+    <p><b>${escHtml(name)}</b>님의 성격유형</p>
+    <div class="mbti-type-badge">${type}</div>
+    <p style="font-size:1.02rem;"><b>${info.t}</b></p>
+    <p>${info.d}</p>
+    ${axisLine ? `<p style="font-size:0.85rem;color:var(--ink-soft);">문항 응답: ${axisLine}</p>` : ''}
+    ${mbtiSajuCombo(type) || '<p style="font-size:0.85rem;color:var(--ink-soft);">💡 위에서 <b>사주 보기</b>를 먼저 하면 일간(日干)과 MBTI를 결합한 심층 해석이 여기에 추가됩니다.</p>'}
+    <p style="font-size:0.78rem;color:var(--ink-muted);">※ 간단 자가진단(12문항)입니다. 결과는 조회 기록에 저장됩니다.</p>`;
+}
+
+function saveMbtiRecord(name, type) {
+  try {
+    const recs = getRecs();
+    let attached = false;
+    for (let i = recs.length - 1; i >= 0; i--) {
+      if (recs[i].name === name) { recs[i].mbti = type; attached = true; break; }
+    }
+    if (!attached) recs.push({
+      name, y: null, m: null, d: null, hh: null, mm: null, sex: '-', pl: '-', mbti: type,
+      ts: new Date().toISOString().slice(0, 16).replace('T', ' '),
+    });
+    while (recs.length > 500) recs.shift();
+    localStorage.setItem('sajuRecords', JSON.stringify(recs));
+    if ($('recCard').style.display === 'block') renderRecords();
+  } catch (e) { /* 저장 불가 환경이어도 앱은 동작 */ }
+}
+
+$('btnMbti').addEventListener('click', () => {
+  const name = $('mbtiName').value.trim();
+  if (!name) { alert('이름을 입력해 주세요. (결과가 조회 기록에 저장됩니다)'); $('mbtiName').focus(); return; }
+  const counts = [0, 0, 0, 0]; // 축별 첫 글자(E/S/T/J) 선택 수
+  for (let i = 0; i < MBTI_QS.length; i++) {
+    const sel = document.querySelector(`input[name="mq${i}"]:checked`);
+    if (!sel) { alert(`${i + 1}번 문항에 답해 주세요.`); document.getElementById(`mq${i}a`).closest('.mbti-q').scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }
+    if (sel.value === '0') counts[MBTI_QS[i].ax]++;
+  }
+  const type = MBTI_AXES.map((ax, i) => counts[i] >= 2 ? ax[0] : ax[1]).join('');
+  mbtiLast = { name, type, counts };
+  try { localStorage.setItem('sajuMbti', JSON.stringify(mbtiLast)); } catch (e) { }
+  saveMbtiRecord(name, type);
+  renderMbtiResult();
+  $('mbtiResult').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+});
+
+// 이름 미리 채우기: 사주 입력의 이름 → MBTI 이름
+$('inName').addEventListener('input', () => { if (!$('mbtiName').value) $('mbtiName').value = $('inName').value; });
+if (mbtiLast) { $('mbtiName').value = mbtiLast.name; renderMbtiResult(); }
+else if ($('inName').value) $('mbtiName').value = $('inName').value;
 
 /* ============================================================
    건의사항 — mailto로 메일 앱을 열어 전달
