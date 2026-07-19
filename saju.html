@@ -1876,7 +1876,12 @@ ${C.groups.map(g => `${g.name}: ${g.n}`).join(', ')}
 ${duLine}
 
 [향후 10년 세운] (해의 기준은 입춘)
-${seunLines.trim()}`;
+${seunLines.trim()}${(mbtiLast && mbtiLast.type && MBTI_TYPES[mbtiLast.type]) ? `
+
+[MBTI 자가진단 결과]
+- 유형: ${mbtiLast.type} (${MBTI_TYPES[mbtiLast.type].t})${mbtiLast.counts ? `
+- 축별 응답: ` + MBTI_AXES.map((ax, i) => `${ax[0]} ${mbtiLast.counts[i]}:${(mbtiLast.perAxis || 3) - mbtiLast.counts[i]} ${ax[1]}`).join(', ') : ''}
+- 사주(타고난 기질)와 MBTI(자가 인식 성향)를 함께 근거로 답변에 활용하세요.` : ''}`;
 }
 
 function consultSystemPrompt() {
@@ -2536,9 +2541,69 @@ function renderMbtiResult() {
     <p style="font-size:1.02rem;"><b>${info.t}</b></p>
     <p>${info.d}</p>
     ${axisLine ? `<p style="font-size:0.85rem;color:var(--ink-soft);">문항 응답: ${axisLine}</p>` : ''}
-    ${mbtiSajuCombo(type) || '<p style="font-size:0.85rem;color:var(--ink-soft);">💡 위에서 <b>사주 보기</b>를 먼저 하면 일간(日干)과 MBTI를 결합한 심층 해석이 여기에 추가됩니다.</p>'}
+    ${mbtiSajuCombo(type) || '<p style="font-size:0.85rem;color:var(--ink-soft);">💡 위에서 <b>사주 보기</b>를 먼저 하면 일간(日干)과 MBTI를 결합한 심층 해석·종합 프로필이 여기에 추가됩니다.</p>'}
+    ${mbtiSummaryHtml(type, name)}
     <p style="font-size:0.78rem;color:var(--ink-muted);">※ ${perAxis >= 9 ? '정밀 자가진단(36문항)' : '간단 자가진단(12문항)'} 결과입니다. 결과는 조회 기록에 저장됩니다. 두 유형 사이 비율이 50%대로 팽팽하다면 양쪽 성향을 모두 가진 것으로 보면 됩니다.</p>`;
 }
+
+// 사주 × MBTI 종합 프로필 요약 + 질문 상자 (둘 다 있을 때만)
+function mbtiSummaryHtml(type, name) {
+  const C = lastCtx;
+  if (!C) return '';
+  const il = ILGAN_DESC[C.dayStem], info = MBTI_TYPES[type], plus = ILGAN_PLUS[C.dayStem];
+  const topG = [...C.groups].sort((a, b) => b.n - a.n)[0];
+  const pills = [il.t.split(' — ')[1], `${type} · ${info.t}`, `${topG.name} 발달 (${topG.keyword})`,
+    C.str.strong ? '신강 — 뚜렷한 주관' : '신약 — 섬세한 조율력'];
+  return `
+    <h3 style="margin-top:20px;">📋 종합 프로필 — 사주 × MBTI로 본 ${escHtml(name)}님</h3>
+    <p>${pills.map(p => `<span class="pill">${p}</span>`).join(' ')}</p>
+    <p style="background:var(--accent-soft);border-radius:12px;padding:13px 16px;">
+      타고난 기질(사주)은 "<b>${il.t}</b>", 겉으로 드러나는 성향(MBTI)은 <b>${type} · ${info.t}</b>입니다.
+      속은 ${C.str.strong ? '주관이 뚜렷해 정한 방향으로 밀고 나가는' : '상황을 섬세하게 읽고 주변과 조율하는'} 사람이고,
+      에너지는 ${type[0] === 'E' ? '밖(사람·활동)으로' : '안(생각·깊이)으로'} 쓰는 편입니다.
+      사주에서 가장 발달한 <b>${topG.name}</b>(${topG.keyword})의 힘이 삶의 중심 엔진이며,
+      일할 때는 ${type.includes('J') ? '계획을 세워 끝까지 마무리 짓는' : '흐름에 맞춰 유연하게 기회를 살리는'} 방식이 잘 맞습니다.
+      어울리는 환경은 <b>${plus.env.split(' — ')[0]}</b>이고,
+      지치거나 막힐 때는 <b>${EL_KO[C.luckEl]}(${C.luckEl})</b> 기운 — ${LUCK[C.luckEl][0]}, ${LUCK[C.luckEl][1]} — 이 회복의 열쇠입니다.</p>
+    <h3 style="margin-top:16px;">💬 이 결과, 궁금한 점 물어보기</h3>
+    <p style="font-size:0.84rem;color:var(--ink-soft);">위 종합 프로필(사주+MBTI)을 근거로 답해드립니다. ${AI.on ? 'AI 상담 모드가 켜져 있어 Claude가 사주와 MBTI를 함께 보고 답합니다.' : '예: "저는 어떤 일이 잘 맞나요?", "제 성격의 최대 강점은요?"'}</p>
+    <div id="mbtiQaLog"></div>
+    <div class="consult-in"><input type="text" id="mbtiQ" placeholder="예: 제 성격에 잘 맞는 직업은요?" maxlength="200"><button id="mbtiAsk">질문하기</button></div>`;
+}
+
+function mbtiRuleNote(type) {
+  const t1 = type[0] === 'E' ? '사람을 만나고 움직이며 답을 찾는' : '혼자 정리하는 시간에서 답을 찾는';
+  const t2 = type.includes('J') ? '계획이 서야 힘이 나는' : '여지를 남겨둘 때 힘이 나는';
+  return `<p class="disc">※ MBTI(${type}) 성향 참고 — ${t1} 편이고, ${t2} 스타일이라는 점을 함께 고려해 읽어 주세요.</p>`;
+}
+
+function doMbtiConsult() {
+  const inp = document.getElementById('mbtiQ');
+  if (!inp || !lastCtx || !mbtiLast) return;
+  const q = inp.value.trim();
+  if (!q || aiBusy) return;
+  const log = document.getElementById('mbtiQaLog');
+  log.insertAdjacentHTML('beforeend', `<div class="qa-q">${escHtml(q)}</div><div class="qa-a"></div>`);
+  const ansDiv = log.lastElementChild;
+  inp.value = '';
+  ansDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  if (AI.on) {
+    aiBusy = true;
+    const btn = document.getElementById('mbtiAsk');
+    if (btn) { btn.disabled = true; btn.textContent = '분석 중…'; }
+    doConsultAI(q, ansDiv).finally(() => {
+      aiBusy = false;
+      const b = document.getElementById('mbtiAsk');
+      if (b) { b.disabled = false; b.textContent = '질문하기'; }
+      ansDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+  } else {
+    ansDiv.innerHTML = consultAnswer(q) + mbtiRuleNote(mbtiLast.type);
+  }
+}
+// 결과 영역은 매번 다시 그려지므로 위임 방식으로 바인딩
+$('mbtiResult').addEventListener('click', e => { if (e.target.id === 'mbtiAsk') doMbtiConsult(); });
+$('mbtiResult').addEventListener('keydown', e => { if (e.target.id === 'mbtiQ' && e.key === 'Enter') doMbtiConsult(); });
 
 function saveMbtiRecord(name, type) {
   try {
